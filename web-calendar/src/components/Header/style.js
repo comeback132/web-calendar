@@ -8,11 +8,14 @@ export const HeaderContainer = styled.header`
   background-color: #f5f5f5;
   border-bottom: 1px solid #ddd;
 `;
-
+export const BrandControlsWrap=styled.div`
+  display: flex;
+`;
 export const Brand = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-right:10px;
 `;
 
 export const Controls = styled.div`

@@ -4,13 +4,17 @@ export const DatePickerWrapper = styled.div`
   display: flex;
   justify-content: center;
   background: #ffffff;
-  margin: 0 auto;
+  margin: 20px;
   padding: 0px;
   width: 240px;
   max-height: 284px;
   border-radius: 8px;
   box-shadow: 0px 4px 4px 0px #0000001a;
-
+  z-index:-2;
+  .date-picker-container {
+    position: relative;
+    z-index: 0; /* Adjust as necessary */
+  }
   .react-datepicker {
     width: 224px;
     height: 217px;
