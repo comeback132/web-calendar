@@ -1,7 +1,7 @@
 // src/features/calendar/EventList.jsx
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Event from '@/features/calendar/Event';
+import Event from '@/components/Event/Event';
 
 const EventList = ({ date }) => {
   const calendars = useSelector(state => state.calendar.calendars);
