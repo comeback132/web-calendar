@@ -14,6 +14,7 @@ export const DatePickerWrapper = styled.div`
   .date-picker-container {
     position: relative;
     z-index: 0; /* Adjust as necessary */
+    
   }
   .react-datepicker {
     width: 224px;
@@ -22,6 +23,7 @@ export const DatePickerWrapper = styled.div`
     border-radius: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
+    position: absolute;
   }
 
   .react-datepicker__navigation {

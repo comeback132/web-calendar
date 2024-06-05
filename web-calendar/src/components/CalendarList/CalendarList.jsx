@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components';
 import CreateCalendarModal from './CreateCalendarModal';
 import DeleteCalendarModal from './DeleteCalendarModal';
+import { addCalendar, deleteCalendar } from '../../features/calendar/calendarSlice';
 
 const CalendarList = () => {
-  const [calendars, setCalendars] = useState([{ id: 1, title: 'Default Calendar', color: '#16AF6E' }]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCalendar, setSelectedCalendar] = useState(null);
 
+  const calendars = useSelector((state) => state.calendar.calendars);
+  const dispatch = useDispatch();
   const handleCreateCalendar = (title, color) => {
     const newCalendar = {
       id: calendars.length + 1,
-      title,
+      name,
       color,
     };
-    setCalendars([...calendars, newCalendar]);
+    dispatch(addCalendar([...calendars, newCalendar]));
     setShowCreateModal(false);
   };
 
   const handleDeleteCalendar = (calendarId) => {
-    setCalendars(calendars.filter(calendar => calendar.id !== calendarId));
+    dispatch(deleteCalendar(calendars.filter(calendar => calendar.id !== calendarId)));
     setShowDeleteModal(false);
   };
 
@@ -33,8 +36,8 @@ const CalendarList = () => {
       <List>
         {calendars.map(calendar => (
           <ListItem key={calendar.id} color={calendar.color}>
-            <span>{calendar.title}</span>
-            {calendar.title !== 'Default Calendar' && (
+            <span>{calendar.name}</span>
+            {calendar.name !== 'Default Calendar' && (
               <DeleteButton onClick={() => { setSelectedCalendar(calendar); setShowDeleteModal(true); }}>X</DeleteButton>
             )}
           </ListItem>

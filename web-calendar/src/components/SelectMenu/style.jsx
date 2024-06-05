@@ -1,16 +1,10 @@
 import styled from "styled-components";
 
 export const DropDownContainer = styled("div")`
-  width: 80px;
+  width: 88px;
   margin: 0 auto;
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.30000001192092896px;
-  text-align: left;
-  position:relative;
-  top:-7px;
+  position: relative;
+  top: -15px;
 `;
 
 export const Title = styled("h4")`
@@ -19,40 +13,28 @@ export const Title = styled("h4")`
   font-weight: 700;
   text-align: left;
   color: #323749;
+  position: relative;
+  top: 14px;
 `;
 
-export const DropDownHeader = styled("button")`
-  display: flex;
-  align-items: center;
-  width: 80px;
-  height: 36px;
-  padding: 12px 10px 12px 10px;
-  gap: 4px;
-  border-radius: 8px;
-  opacity: 0px;
-  border: 1px solid #dedfe5;
-  box-shadow: 0px 1px 2px 0px #1018280d;
-  background: #ffffff;
-  cursor: pointer;
-  &:hover {
-    background: #F6F6F6;
-    box-shadow: 0px 1px 2px 0px #45454540;
-  }
-  &:active {
-    background: #E3E3E3;
-    box-shadow: 0px 1px 2px 0px #45454540;
-  }
+export const DropDownHeader = styled("div")`
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: left;
+  border-bottom: 1px solid #323749;
+  padding-bottom: 16px;
 `;
 
 export const DropDownListContainer = styled("div")`
   margin-top: 3px;
-  position: absolute;
 `;
 
 export const DropDownList = styled("ul")`
   padding: 0;
-  width: 80px;
+  width: 88px;
   display: flex;
+  position: absolute;
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
@@ -60,18 +42,33 @@ export const DropDownList = styled("ul")`
   box-shadow: 0px 8px 16px 0px #3131311a;
   margin: 0;
   max-height: 180px;
-  background: #ffffff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background: #fff;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    width: 4px;
+    border-radius: 3px;
+    height: 20px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+  }
 `;
 
 export const ListItem = styled("li")`
   list-style: none;
   height: 36px;
-  width: 80px;
+  width: 88px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  cursor:pointer;
   &:hover {
     background: #f6f6f6;
   }
@@ -87,3 +84,5 @@ export const ListItem = styled("li")`
     background: #e3e3e3;
   }
 `;
+
+//file

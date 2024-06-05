@@ -46,7 +46,7 @@ const Header = () => {
           </Controls>
         </BrandControlsWrap>
         <Controls>
-            <CustomDropdown title="View" /> {/* Add the CustomDropdown */}
+            <CustomDropdown /> {/* Add the CustomDropdown */}
             <div>
                 Username
                 <CustomButton secondary>
