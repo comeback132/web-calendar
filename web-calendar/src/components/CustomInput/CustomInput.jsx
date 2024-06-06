@@ -21,6 +21,8 @@ const CustomInput = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
+
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -34,10 +36,10 @@ const CustomInput = ({
         disabled={disabled}
         active={active}
         filled={filled}
-        type={showPassword ? "text" : "password"}
+        type={inputType}
         {...rest}
       />
-      {showPasswordToggle && (
+      {showPasswordToggle && type === "password" && (
         <ToggleButton onClick={handleTogglePassword}>
           {showPassword ? (
             <img src={eyeclosed} alt="Close eye icon" />

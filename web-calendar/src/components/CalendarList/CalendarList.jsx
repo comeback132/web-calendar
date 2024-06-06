@@ -1,29 +1,38 @@
-import React, { useState } from 'react';
+// src/components/CalendarList/CalendarList.jsx
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styled from 'styled-components';
-import CreateCalendarModal from './CreateCalendarModal';
-import DeleteCalendarModal from './DeleteCalendarModal';
-import { addCalendar, deleteCalendar } from '../../features/calendar/calendarSlice';
+import styled from "styled-components";
+import CreateCalendarModal from "./CreateCalendarModal";
+import DeleteCalendarModal from "./DeleteCalendarModal";
+import {
+  addCalendar,
+  deleteCalendar,
+} from "../../features/calendar/calendarSlice";
+import Checkbox from "@/components/CheckBox/Checkbox";
+import CustomButton from "@/components/CustomButton/CustomButton";
 
 const CalendarList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCalendar, setSelectedCalendar] = useState(null);
+  const [hoveredCalendarId, setHoveredCalendarId] = useState(null);
 
   const calendars = useSelector((state) => state.calendar.calendars);
   const dispatch = useDispatch();
-  const handleCreateCalendar = (title, color) => {
+
+  const handleCreateCalendar = (name, color) => {
     const newCalendar = {
-      id: calendars.length + 1,
+      id: `${calendars.length + 1}`,
       name,
       color,
+      events: [],
     };
-    dispatch(addCalendar([...calendars, newCalendar]));
+    dispatch(addCalendar(newCalendar));
     setShowCreateModal(false);
   };
 
   const handleDeleteCalendar = (calendarId) => {
-    dispatch(deleteCalendar(calendars.filter(calendar => calendar.id !== calendarId)));
+    dispatch(deleteCalendar(calendarId));
     setShowDeleteModal(false);
   };
 
@@ -31,14 +40,43 @@ const CalendarList = () => {
     <Container>
       <Header>
         <Title>My calendars</Title>
-        <AddButton onClick={() => setShowCreateModal(true)}>+</AddButton>
+        <CustomButton icon="add" iconOnly onClick={() => setShowCreateModal(true)}>+</CustomButton>
       </Header>
       <List>
-        {calendars.map(calendar => (
-          <ListItem key={calendar.id} color={calendar.color}>
-            <span>{calendar.name}</span>
-            {calendar.name !== 'Default Calendar' && (
-              <DeleteButton onClick={() => { setSelectedCalendar(calendar); setShowDeleteModal(true); }}>X</DeleteButton>
+        {calendars.map((calendar) => (
+          <ListItem
+            key={calendar.id}
+            color={calendar.color}
+            onMouseEnter={() => setHoveredCalendarId(calendar.id)}
+            onMouseLeave={() => setHoveredCalendarId(null)}
+          >
+            <CalendarCheckWrapper>
+              <Checkbox color={calendar.color} />
+              <span>{calendar.name}</span>
+            </CalendarCheckWrapper>
+            {hoveredCalendarId === calendar.id && (
+              <CalendarControls>
+                <CustomButton
+                  icon="edit"
+                  iconOnly
+                  onClick={() => {
+                    setSelectedCalendar(calendar);
+                    setShowCreateModal(true);
+                  }}
+                ></CustomButton>
+                {calendar.name !== "Default Calendar" && (
+                  <CustomButton
+                    icon="delete"
+                    iconOnly
+                    onClick={() => {
+                      setSelectedCalendar(calendar);
+                      setShowDeleteModal(true);
+                    }}
+                  >
+                    X
+                  </CustomButton>
+                )}
+              </CalendarControls>
             )}
           </ListItem>
         ))}
@@ -86,6 +124,17 @@ const Title = styled.h3`
   margin: 0;
 `;
 
+const EditButton = styled.button`
+  background-color: #16af6e;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+`;
+
 const AddButton = styled.button`
   background-color: #16af6e;
   border: none;
@@ -109,15 +158,19 @@ const ListItem = styled.li`
   align-items: center;
   padding: 5px 10px;
   margin-bottom: 5px;
-  background-color: ${({ color }) => color};
   border-radius: 4px;
-  color: #fff;
+  color: black;
+  &:hover {
+    background-color:#F6F7F8;
+    border-radius: 8px;
+  }
+`;
+const CalendarCheckWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
-const DeleteButton = styled.button`
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
+const CalendarControls = styled.div`
+  float: right;
+  display: flex;
 `;

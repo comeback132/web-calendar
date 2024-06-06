@@ -58,6 +58,17 @@ const Button = styled.button`
       align-items: center;
       justify-content: center;
     `}
+    ${props =>
+      props.iconOnly &&
+      css`
+        background-color: transparent;
+        border: none;
+        width: auto;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      `}
   
     ${props =>
       props.disabled &&

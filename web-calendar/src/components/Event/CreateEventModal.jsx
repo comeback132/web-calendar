@@ -6,6 +6,7 @@ import ColourPicker from "../ColourPicker/ColourPicker";
 import DatePicker from "@/components/CustomDatePicker/DatePicker";
 import SelectMenu from "@/components/SelectMenu/SelectMenu";
 import CustomInput from "@/components/CustomInput/CustomInput";
+import Checkbox from '@/components/CheckBox/Checkbox';
 
 const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
@@ -40,6 +41,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   "21:00 pm", "21:15 pm", "21:30 pm", "21:45 pm",
   "22:00 pm", "22:15 pm", "22:30 pm", "22:45 pm",
   "23:00 pm", "23:15 pm", "23:30 pm", "23:45 pm"];
+  
 
   const calendars = useSelector((state) => state.calendar.calendars);
   const dispatch = useDispatch();
@@ -93,14 +95,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
             <span>-</span>
             <SelectMenu title="Time" options={timeOptions} onChange={setEndTime}></SelectMenu>
           </DateTimeWrapper>
-          <CheckboxWrapper>
-            <Input
-              type="checkbox"
-              checked={allDay}
-              onChange={(e) => setAllDay(e.target.checked)}
-            />
-            <Label>All day</Label>
-          </CheckboxWrapper>
+            <Checkbox checked={allDay} text='All day' label='All day' onChange={(e) => setAllDay(e.target.checked)}/>
           <Label>Calendar</Label>
           <Select
             value={calendarId}

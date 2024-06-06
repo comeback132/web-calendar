@@ -1,5 +1,4 @@
 // src/components/CalendarList/CreateCalendarModal.jsx
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ColourPicker from '../ColourPicker/ColourPicker';
@@ -23,7 +22,7 @@ const CreateCalendarModal = ({ onCreate, onClose }) => {
           <Label>Title</Label>
           <Input type="text" value={title} onChange={e => setTitle(e.target.value)} />
           <Label>Colour</Label>
-          <ColourPicker selectedColor={color} onColorSelect={setColor} />
+          <ColourPicker title="Pick a color" value={color} onChange={setColor} />
         </ModalBody>
         <ModalFooter>
           <SaveButton onClick={handleSave}>Save</SaveButton>
