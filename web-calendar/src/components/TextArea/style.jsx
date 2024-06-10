@@ -10,7 +10,8 @@ export const Title = styled.h2`
   letter-spacing: -0.20000000298023224px;
   text-align: left;
 `;
-export const Text = styled.p`
+export const Text = styled.input`
+  border: none;
   font-family: Inter;
   font-size: 15px;
   font-weight: 400;
@@ -21,14 +22,14 @@ export const Text = styled.p`
   border-bottom: 1px solid #737373;
   padding-bottom: 16px;
   margin: 0px;
-  width: 450px;
+  width: 100%;
 `;
 export const TextAreaWrap = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   padding: 0px;
-  width: 450px;
+  width: 100%;
 `;
 
 //file

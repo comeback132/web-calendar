@@ -5,7 +5,7 @@ const TextArea = ({ title, children }) => {
   return (
     <TextAreaWrap>
       <Title>{title}</Title>
-      <Text>{children}</Text>
+      <Text/>
     </TextAreaWrap>
   );
 };

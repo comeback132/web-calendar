@@ -1,5 +1,6 @@
 import React, { Children, useState } from "react";
 import { DropDownContainer,Title,DropDownHeader,DropDownListContainer,DropDownList,ListItem } from "./style";
+import Checkbox from "@/components/CheckBox/Checkbox";
 //const options = ["12:00 pm", "12:15 pm", "12:30 pm", "12:45 pm", "13:00 pm"];
 
 const generateTimeOptions = () => {
@@ -23,7 +24,7 @@ const generateTimeOptions = () => {
 
 const options = generateTimeOptions();
 
-const SelectMenu = ({ title, options }) => {
+const SelectMenu = ({ title, options}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
