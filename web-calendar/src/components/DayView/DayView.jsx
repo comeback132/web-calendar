@@ -1,4 +1,3 @@
-// src/components/DayView/DayView.jsx
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -77,17 +76,22 @@ const getEventStyle = (event) => {
 };
 
 const DayView = () => {
-  const events = useSelector((state) => state.calendar.calendars.events) || [];
+  //const events = useSelector((state) => state.calendar.calendars.events) || [];
+  const calendars = useSelector((state) => state.calendar.calendars)
+  const allEvents = calendars.reduce((acc, calendar) => {
+    return acc.concat(calendar.events);
+  }, []);
+  
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
 
   // Filter events for the selected date
-  const dayEvents = events.filter(event => 
+  const dayEvents = allEvents.filter(event => 
     new Date(event.date).toDateString() === new Date(selectedDate).toDateString()
   );
 
   return (
     <DayViewWrapper>
-      {console.log(events)}
+      {console.log(dayEvents)}
       <DayViewHeader>
         <h2>{new Date(selectedDate).toDateString()}</h2>
       </DayViewHeader>
@@ -98,16 +102,16 @@ const DayView = () => {
             <HourEvents>
               {dayEvents
                 .filter(event => {
-                  const eventStartHour = new Date(event.start).getHours();
-                  const eventEndHour = new Date(event.end).getHours();
+                  const eventStartHour = new Date(event.startTime).getHours();
+                  const eventEndHour = new Date(event.endTime).getHours();
                   return eventStartHour <= hour && hour < eventEndHour;
                 })
                 .map(event => (
                   <DayViewEvent key={event.id} style={{ ...getEventStyle(event), backgroundColor: event.color }}>
                     <div>{event.title}</div>
                     <div>
-                      {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
-                      {new Date(event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
+                      {new Date(event.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </DayViewEvent>
                 ))
