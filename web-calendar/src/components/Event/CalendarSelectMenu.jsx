@@ -1,4 +1,4 @@
-import React, { Children, useState } from "react";
+import React, { useState } from "react";
 import {
   DropDownContainer,
   Title,
@@ -10,15 +10,16 @@ import {
 import CalendarCheckbox from "@/components/Event/CalendarCheckbox";
 import { CalendarCheckWrapper } from "@/components/CalendarList/CalendarList";
 
-const CalendarSelectMenu = ({ title, options }) => {
+const CalendarSelectMenu = ({ title, options, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const toggling = () => setIsOpen(!isOpen);
 
-  const onOptionClicked = (value) => () => {
-    setSelectedOption(value);
+  const onOptionClicked = (option) => {
+    setSelectedOption(option); // Set selectedOption to the entire selected calendar object
     setIsOpen(false);
+    onChange(option.id); // Pass the id of the selected calendar to the parent onChange handler
   };
 
   return (
@@ -43,8 +44,8 @@ const CalendarSelectMenu = ({ title, options }) => {
             {options.map((option) => (
               <ListItem
                 data-testid="select-option"
-                onClick={onOptionClicked(option)}
-                key={Math.random()}
+                onClick={() => onOptionClicked(option)}
+                key={option.id} // Use option.id as the key for each ListItem
               >
                 <CalendarCheckWrapper>
                   <CalendarCheckbox color={option.color} />
@@ -61,4 +62,3 @@ const CalendarSelectMenu = ({ title, options }) => {
 
 export default CalendarSelectMenu;
 
-//file

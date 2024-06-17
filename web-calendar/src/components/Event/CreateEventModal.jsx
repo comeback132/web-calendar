@@ -9,15 +9,17 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import Checkbox from "@/components/CheckBox/Checkbox";
 import TextArea from "@/components/TextArea/TextArea";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import { addEvent } from "@/features/calendar/calendarSlice";
 
 const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
   const [chooseDate, setChooseDate] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState("12:30 pm");
+  const [endTime, setEndTime] = useState("12:30 pm");
   const [allDay, setAllDay] = useState(false);
   const [calendarId, setCalendarId] = useState("default");
+  const [selectedCalendar, setSelectedCalendar] = useState(null);
 
   const timeOptions = [
     "00:00 am",
@@ -123,19 +125,12 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
 
   const handleDateChange = (date) => {
-    dispatch(setSelectedDate(date));
+    setDate(date);
+    dispatch(setSelectedDate(date.toString()));
   };
   const handleSave = () => {
-    onCreate({
-      title,
-      color,
-      date,
-      startTime,
-      endTime,
-      allDay,
-      repeat,
-      calendarId,
-    });
+    dispatch(addEvent({ title, date, startTime, endTime, allDay, calendarId }));
+    onClose();
   };
 
   return (
@@ -177,7 +172,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
               options={timeOptions}
               onChange={setStartTime}
             ></SelectMenu>
-            <span>-</span>
+            <span style={{ position: "relative", top: "5px" }}>-</span>
             <SelectMenu
               title="Time"
               options={timeOptions}
@@ -191,14 +186,18 @@ const CreateEventModal = ({ onCreate, onClose }) => {
             onChange={(e) => setAllDay(e.target.checked)}
           />
           <CalendarSelectMenu
-            onChange={(e) => setCalendarId(e.target.value)}
-            options={calendars.map((calendar) => calendar)}
-            title='Calendar'
-            calendar
-          >
-          </CalendarSelectMenu>
-          <TextArea title="Description" >
-          </TextArea>
+            onChange={(calendarId) => {
+              setCalendarId(calendarId); // Set calendarId state
+              const selectedCalendar = calendars.find(
+                (calendar) => calendar.id === calendarId
+              );
+              setSelectedCalendar(selectedCalendar); // Set selected calendar state for display
+            }}
+            options={calendars}
+            title="Calendar"
+          />
+
+          <TextArea title="Description" children={"Enter description"}></TextArea>
         </ModalBody>
         <ModalFooter>
           <CustomButton onClick={handleSave}>Save</CustomButton>
@@ -224,6 +223,8 @@ const ModalOverlay = styled.div`
 `;
 
 const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -259,10 +260,13 @@ const Label = styled.label`
 `;
 const DatePickerWrapper = styled.div`
   position: absolute;
+  z-index: 999;
+  
 `;
 
 const DateTimeWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
 `;
@@ -304,6 +308,7 @@ const Textarea = styled.textarea`
 const ModalFooter = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: auto;
 `;
 
 const SaveButton = styled.button`

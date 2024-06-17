@@ -24,7 +24,7 @@ const generateTimeOptions = () => {
 
 const options = generateTimeOptions();
 
-const SelectMenu = ({ title, options}) => {
+const SelectMenu = ({ title, options, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -33,6 +33,7 @@ const SelectMenu = ({ title, options}) => {
   const onOptionClicked = (value) => () => {
     setSelectedOption(value);
     setIsOpen(false);
+    onChange(value);
   };
 
   return (
@@ -45,7 +46,7 @@ const SelectMenu = ({ title, options}) => {
         <DropDownListContainer>
           <DropDownList>
             {options.map((option) => (
-              <ListItem data-testid="select-option" onClick={onOptionClicked(option)} key={Math.random()}>
+              <ListItem data-testid="select-option" onClick={onOptionClicked(option)} key={option}>
                 {option}
               </ListItem>
             ))}

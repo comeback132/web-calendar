@@ -5,21 +5,22 @@ export const InputWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  padding-bottom:0px;
+  flex-direction: column;
+  width:100%;
 `;
 
 export const InputField = styled.input`
-  width: 300px;
-  height: 40px;
+  padding-bottom: 5px;
+  padding-top: 15px;
   gap: 0px;
   border: none;
-  border-bottom: 1px solid #737373;
+  border-bottom: 1px solid #323749;
   opacity: 0px;
   color: #323749;
   font-family: Inter;
   font-size: 15px;
   font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.30000001192092896px;
   text-align: left;
   &:focus {
     outline: none;

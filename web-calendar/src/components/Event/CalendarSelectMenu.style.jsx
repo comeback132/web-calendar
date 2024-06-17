@@ -23,11 +23,13 @@ export const DropDownHeader = styled("div")`
   font-weight: 400;
   text-align: left;
   border-bottom: 1px solid #323749;
-  padding-bottom: 16px;
+  padding-bottom: 5px;
+  padding-top: 8px;
 `;
 
 export const DropDownListContainer = styled("div")`
-  margin-top: 3px;
+  position:relative;
+  top:3px;
 `;
 
 export const DropDownList = styled("ul")`

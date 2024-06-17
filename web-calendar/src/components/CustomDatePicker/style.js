@@ -4,15 +4,17 @@ export const DatePickerWrapper = styled.div`
   display: flex;
   justify-content: center;
   background: #ffffff;
-  margin: 20px;
+  margin-left: 20px;
   padding: 0px;
   width: 240px;
   max-height: 284px;
   border-radius: 8px;
-  box-shadow: 0px 4px 4px 0px #0000001a;
-  z-index:-2;
+
+  position: relative;
+  top: 20px;
   .date-picker-container {
     position: relative;
+    top: 13px;
     z-index: 0; /* Adjust as necessary */
   }
   .react-datepicker {
@@ -75,6 +77,12 @@ export const DatePickerWrapper = styled.div`
   .react-datepicker__month {
     margin: 0 auto;
     padding: 0px;
+    box-shadow: 0px 8px 16px 0px #3131311a;
+  }
+  .react-datepicker__month-container {
+
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .react-datepicker__day-names {

@@ -9,7 +9,7 @@ const initialState = {
       events: [],
     },
   ],
-  selectedDate: new Date(),
+  selectedDate: new Date().toString(),
 };
 
 const calendarSlice = createSlice({
@@ -17,11 +17,21 @@ const calendarSlice = createSlice({
   initialState,
   reducers: {
     addEvent: (state, action) => {
-      const { calendarId, event } = action.payload;
+      const { title, color, date, startTime, endTime, allDay, repeat, calendarId } = action.payload;
       const calendar = state.calendars.find(cal => cal.id === calendarId);
       if (calendar) {
-        calendar.events.push(event);
+        calendar.events.push({
+          id: Date.now().toString(),
+          title,
+          color,
+          date: date.toString(),
+          startTime,
+          endTime,
+          allDay,
+          repeat,
+        });
       }
+      console.log(state.calendars.events)
     },
     editEvent: (state, action) => {
       const { calendarId, eventId, updatedEvent } = action.payload;

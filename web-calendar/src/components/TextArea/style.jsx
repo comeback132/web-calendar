@@ -20,9 +20,12 @@ export const Text = styled.input`
   text-align: left;
   color: #323749;
   border-bottom: 1px solid #737373;
-  padding-bottom: 16px;
+  padding-bottom: 6px;
   margin: 0px;
   width: 100%;
+  &:focus {
+    outline: none;
+  }
 `;
 export const TextAreaWrap = styled.div`
   display: flex;
@@ -32,4 +35,3 @@ export const TextAreaWrap = styled.div`
   width: 100%;
 `;
 
-//file

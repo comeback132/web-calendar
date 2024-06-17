@@ -1,3 +1,4 @@
+// src/components/DayView/DayView.jsx
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -6,7 +7,7 @@ const DayViewWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 20px;
-  flex-grow: 100;
+  flex-grow: 1;
 `;
 
 const DayViewHeader = styled.div`
@@ -16,8 +17,7 @@ const DayViewHeader = styled.div`
 `;
 
 const DayViewBody = styled.div`
-  display: flex;
-  flex-direction: column;
+  position: relative;
   border: 1px solid #dedfe5;
   border-radius: 8px;
   overflow: hidden;
@@ -25,17 +25,16 @@ const DayViewBody = styled.div`
 
 const DayViewHour = styled.div`
   display: flex;
-  border-bottom: 1px solid #dedfe5;
   min-height: 60px;
   position: relative;
 
-  &:last-child {
-    border-bottom: none;
+  &:not(:last-child) {
+    border-bottom: 1px solid #dedfe5;
   }
 `;
 
 const HourLabel = styled.div`
-  width: 50px;
+  width: 60px;
   text-align: center;
   padding: 10px;
   border-right: 1px solid #dedfe5;
@@ -57,8 +56,28 @@ const DayViewEvent = styled.div`
   color: white;
 `;
 
+const formatHourLabel = (hour) => {
+  const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
+  const amPm = hour < 12 ? 'am' : 'pm';
+  return `${formattedHour} ${amPm}`;
+};
+
+const getEventStyle = (event) => {
+  const startHour = new Date(event.start).getHours();
+  const startMinutes = new Date(event.start).getMinutes();
+  const endHour = new Date(event.end).getHours();
+  const endMinutes = new Date(event.end).getMinutes();
+  const top = (startHour * 60) + startMinutes;
+  const height = ((endHour * 60) + endMinutes) - top;
+
+  return {
+    top: `${top}px`,
+    height: `${height}px`,
+  };
+};
+
 const DayView = () => {
-  const events = useSelector((state) => state.calendar.events) || [];
+  const events = useSelector((state) => state.calendar.calendars.events) || [];
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
 
   // Filter events for the selected date
@@ -68,19 +87,28 @@ const DayView = () => {
 
   return (
     <DayViewWrapper>
+      {console.log(events)}
       <DayViewHeader>
         <h2>{new Date(selectedDate).toDateString()}</h2>
       </DayViewHeader>
       <DayViewBody>
         {[...Array(24)].map((_, hour) => (
           <DayViewHour key={hour}>
-            <HourLabel>{hour}:00</HourLabel>
+            <HourLabel>{formatHourLabel(hour)}</HourLabel>
             <HourEvents>
               {dayEvents
-                .filter(event => new Date(event.date).getHours() === hour)
+                .filter(event => {
+                  const eventStartHour = new Date(event.start).getHours();
+                  const eventEndHour = new Date(event.end).getHours();
+                  return eventStartHour <= hour && hour < eventEndHour;
+                })
                 .map(event => (
-                  <DayViewEvent key={event.id} style={{ backgroundColor: event.color }}>
-                    {event.title}
+                  <DayViewEvent key={event.id} style={{ ...getEventStyle(event), backgroundColor: event.color }}>
+                    <div>{event.title}</div>
+                    <div>
+                      {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
+                      {new Date(event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
                   </DayViewEvent>
                 ))
               }
