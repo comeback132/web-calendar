@@ -13,6 +13,7 @@ import { addEvent } from "@/features/calendar/calendarSlice";
 
 const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
+  const [color, setColor] = useState("blue");
   const [chooseDate, setChooseDate] = useState(false);
   const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState("12:30 pm");
