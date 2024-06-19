@@ -1,6 +1,6 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 const DayViewWrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const DayViewHour = styled.div`
   display: flex;
   min-height: 60px;
   position: relative;
-
+  align-items: center;
   &:not(:last-child) {
     border-bottom: 1px solid #dedfe5;
   }
@@ -41,158 +41,96 @@ const HourLabel = styled.div`
 `;
 
 const HourEvents = styled.div`
-  flex: 1;
-  padding: 10px;
-  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
 `;
 
 const DayViewEvent = styled.div`
   position: absolute;
-  left: 60px;
-  right: 10px;
-  padding: 5px;
-  border-radius: 4px;
+  padding: 10px;
   color: black;
+  z-index: 999;
 `;
 
-
 const timeOptions = [
-  "00:00 am",
-  "00:15 am",
-  "00:30 am",
-  "00:45 am",
+  "12:00 am",
   "01:00 am",
-  "01:15 am",
-  "01:30 am",
-  "01:45 am",
   "02:00 am",
-  "02:15 am",
-  "02:30 am",
-  "02:45 am",
   "03:00 am",
-  "03:15 am",
-  "03:30 am",
-  "03:45 am",
   "04:00 am",
-  "04:15 am",
-  "04:30 am",
-  "04:45 am",
   "05:00 am",
-  "05:15 am",
-  "05:30 am",
-  "05:45 am",
   "06:00 am",
-  "06:15 am",
-  "06:30 am",
-  "06:45 am",
   "07:00 am",
-  "07:15 am",
-  "07:30 am",
-  "07:45 am",
   "08:00 am",
-  "08:15 am",
-  "08:30 am",
-  "08:45 am",
   "09:00 am",
-  "09:15 am",
-  "09:30 am",
-  "09:45 am",
   "10:00 am",
-  "10:15 am",
-  "10:30 am",
-  "10:45 am",
   "11:00 am",
-  "11:15 am",
-  "11:30 am",
-  "11:45 am",
   "12:00 pm",
-  "12:15 pm",
-  "12:30 pm",
-  "12:45 pm",
-  "13:00 pm",
-  "13:15 pm",
-  "13:30 pm",
-  "13:45 pm",
-  "14:00 pm",
-  "14:15 pm",
-  "14:30 pm",
-  "14:45 pm",
-  "15:00 pm",
-  "15:15 pm",
-  "15:30 pm",
-  "15:45 pm",
-  "16:00 pm",
-  "16:15 pm",
-  "16:30 pm",
-  "16:45 pm",
-  "17:00 pm",
-  "17:15 pm",
-  "17:30 pm",
-  "17:45 pm",
-  "18:00 pm",
-  "18:15 pm",
-  "18:30 pm",
-  "18:45 pm",
-  "19:00 pm",
-  "19:15 pm",
-  "19:30 pm",
-  "19:45 pm",
-  "20:00 pm",
-  "20:15 pm",
-  "20:30 pm",
-  "20:45 pm",
-  "21:00 pm",
-  "21:15 pm",
-  "21:30 pm",
-  "21:45 pm",
-  "22:00 pm",
-  "22:15 pm",
-  "22:30 pm",
-  "22:45 pm",
-  "23:00 pm",
-  "23:15 pm",
-  "23:30 pm",
-  "23:45 pm",
+  "01:00 pm",
+  "02:00 pm",
+  "03:00 pm",
+  "04:00 pm",
+  "05:00 pm",
+  "06:00 pm",
+  "07:00 pm",
+  "08:00 pm",
+  "09:00 pm",
+  "10:00 pm",
+  "11:00 pm",
 ];
 const formatHourLabel = (hour) => {
   const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
-  const amPm = hour < 12 ? 'am' : 'pm';
+  const amPm = hour < 12 ? "am" : "pm";
   return `${formattedHour} ${amPm}`;
 };
 
+const parseTime = (time) => {
+  const [hourPart, minutePart] = time.split(':');
+  const [minutes, period] = minutePart.split(' ');
+  let hours = parseInt(hourPart, 10);
+  if (period === 'pm' && hours !== 12) {
+    hours += 12;
+  } else if (period === 'am' && hours === 12) {
+    hours = 0;
+  }
+  return { hours, minutes: parseInt(minutes, 10) };
+};
+
 const getEventStyle = (event) => {
-  const startHour = new Date(event.start).getHours();
-  const startMinutes = new Date(event.start).getMinutes();
-  const endHour = new Date(event.end).getHours();
-  const endMinutes = new Date(event.end).getMinutes();
-  const top = (startHour * 60) + startMinutes;
-  const height = ((endHour * 60) + endMinutes) - top;
+  const { hours: startHours, minutes: startMinutes } = parseTime(event.startTime);
+  const { hours: endHours, minutes: endMinutes } = parseTime(event.endTime);
+
+  const startInMinutes = (startHours * 60) + startMinutes;
+  const endInMinutes = (endHours * 60) + endMinutes;
+  const durationInMinutes = endInMinutes - startInMinutes;
 
   return {
-    top: `${top}px`,
-    height: `${height}px`,
+    top: `${startInMinutes}px`,
+    height: `${durationInMinutes}px`,
   };
 };
 
 const DayView = () => {
   //const events = useSelector((state) => state.calendar.calendars.events) || [];
-  const calendars = useSelector((state) => state.calendar.calendars)
+  const calendars = useSelector((state) => state.calendar.calendars);
   const allEvents = calendars.reduce((acc, calendar) => {
     return acc.concat(calendar.events);
   }, []);
-  
+
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
 
-  const allEventsDates=allEvents.map((event)=>event.date);
+  const allEventsDates = allEvents.map((event) => event.date);
 
   // Filter events for the selected date
-  const dayEvents = allEvents.filter(event => 
-    new Date(event.date).toDateString() === new Date(selectedDate).toDateString()
+  const dayEvents = allEvents.filter(
+    (event) =>
+      new Date(event.date).toDateString() ===
+      new Date(selectedDate).toDateString()
   );
 
   return (
     <DayViewWrapper>
-      {console.log(dayEvents)}
       <DayViewHeader>
         <h2>{new Date(selectedDate).toDateString()}</h2>
       </DayViewHeader>
@@ -202,22 +140,25 @@ const DayView = () => {
             <HourLabel>{hour}</HourLabel>
             <HourEvents>
               {dayEvents
-                .filter(event => {
+                .filter((event) => {
                   const eventStartHour = event.startTime;
-                  console.log(eventStartHour);
                   const eventEndHour = event.endTime;
                   return eventStartHour <= hour && hour < eventEndHour;
                 })
-                .map(event => (
-                  <DayViewEvent key={event.id} style={{ ...getEventStyle(event), backgroundColor: event.color }}>
+                .map((event) => (
+                  <DayViewEvent
+                    key={event.id}
+                    style={{
+                      ...getEventStyle(event),
+                      backgroundColor: event.color,
+                    }}
+                  >
                     <div>{event.title}</div>
                     <div>
-                      {new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
-                      {new Date(event.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {event.startTime} - {event.endTime}
                     </div>
                   </DayViewEvent>
-                ))
-              }
+                ))}
             </HourEvents>
           </DayViewHour>
         ))}

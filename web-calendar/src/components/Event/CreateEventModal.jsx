@@ -13,11 +13,11 @@ import { addEvent } from "@/features/calendar/calendarSlice";
 
 const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
-  const [color, setColor] = useState("blue");
+  const [color, setColor] = useState("#00AE1C");
   const [chooseDate, setChooseDate] = useState(false);
   const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState("12:30 pm");
-  const [endTime, setEndTime] = useState("12:30 pm");
+  const [endTime, setEndTime] = useState("13:30 pm");
   const [allDay, setAllDay] = useState(false);
   const [calendarId, setCalendarId] = useState("default");
   const [selectedCalendar, setSelectedCalendar] = useState(null);
@@ -130,7 +130,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
     dispatch(setSelectedDate(date.toString()));
   };
   const handleSave = () => {
-    dispatch(addEvent({ title, date, startTime, endTime, allDay, calendarId }));
+    dispatch(addEvent({ title, date, color, startTime, endTime, allDay, calendarId }));
     onClose();
   };
 
@@ -192,6 +192,8 @@ const CreateEventModal = ({ onCreate, onClose }) => {
               const selectedCalendar = calendars.find(
                 (calendar) => calendar.id === calendarId
               );
+              console.log(selectedCalendar);
+              setColor(selectedCalendar.color);
               setSelectedCalendar(selectedCalendar); // Set selected calendar state for display
             }}
             options={calendars}
