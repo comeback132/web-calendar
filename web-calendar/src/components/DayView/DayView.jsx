@@ -1,30 +1,32 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import rgba from "polished/lib/color/rgba";
 
 const DayViewWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 20px;
   flex-grow: 1;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const DayViewHeader = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  border-bottom: 1px solid #dedfe5;
 `;
 
 const DayViewBody = styled.div`
   position: relative;
-  border: 1px solid #dedfe5;
-  border-radius: 8px;
   overflow: hidden;
 `;
 
 const DayViewHour = styled.div`
   display: flex;
-  min-height: 60px;
+  min-height: 59px;
   position: relative;
   align-items: center;
   &:not(:last-child) {
@@ -34,10 +36,12 @@ const DayViewHour = styled.div`
 
 const HourLabel = styled.div`
   width: 60px;
+  height: 59px;
   text-align: center;
-  padding: 10px;
   border-right: 1px solid #dedfe5;
-  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const HourEvents = styled.div`
@@ -47,14 +51,28 @@ const HourEvents = styled.div`
 `;
 
 const DayViewEvent = styled.div`
+  display: flex;
+  flex-wrap:wrap;
+  flex-direction: column;
+  justify-content: flex-start;
   position: absolute;
-  padding: 10px;
   color: black;
-  z-index: 999;
+  z-index: 2;
+  width: 100%;
+  border-radius: 4px;
+  border-left: 6px solid ${(props) => props.color};
+  background-color: ${(props) =>
+    rgba(props.color, 0.3)}; /* Adjust opacity here */
+`;
+const EventTitle = styled.div`
+  padding-left: 12px;
+`;
+const EventTime = styled.div`
+  padding-left: 12px;
 `;
 
 const timeOptions = [
-  "12:00 am",
+  "00:00 am",
   "01:00 am",
   "02:00 am",
   "03:00 am",
@@ -67,17 +85,17 @@ const timeOptions = [
   "10:00 am",
   "11:00 am",
   "12:00 pm",
-  "01:00 pm",
-  "02:00 pm",
-  "03:00 pm",
-  "04:00 pm",
-  "05:00 pm",
-  "06:00 pm",
-  "07:00 pm",
-  "08:00 pm",
-  "09:00 pm",
-  "10:00 pm",
-  "11:00 pm",
+  "13:00 pm",
+  "14:00 pm",
+  "15:00 pm",
+  "16:00 pm",
+  "17:00 pm",
+  "18:00 pm",
+  "19:00 pm",
+  "20:00 pm",
+  "21:00 pm",
+  "22:00 pm",
+  "23:00 pm",
 ];
 const formatHourLabel = (hour) => {
   const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
@@ -86,43 +104,42 @@ const formatHourLabel = (hour) => {
 };
 
 const parseTime = (time) => {
-  const [hourPart, minutePart] = time.split(':');
-  const [minutes, period] = minutePart.split(' ');
-  let hours = parseInt(hourPart, 10);
-  if (period === 'pm' && hours !== 12) {
+  const [timePart, period] = time.split(" ");
+  let [hours, minutes] = timePart.split(":").map(Number);
+  if (period.toLowerCase() === "pm" && hours !== 12) {
     hours += 12;
-  } else if (period === 'am' && hours === 12) {
+  } else if (period.toLowerCase() === "am" && hours === 12) {
     hours = 0;
   }
-  return { hours, minutes: parseInt(minutes, 10) };
+  return { hours, minutes };
 };
 
 const getEventStyle = (event) => {
-  const { hours: startHours, minutes: startMinutes } = parseTime(event.startTime);
+  const { hours: startHours, minutes: startMinutes } = parseTime(
+    event.startTime
+  );
   const { hours: endHours, minutes: endMinutes } = parseTime(event.endTime);
-
-  const startInMinutes = (startHours * 60) + startMinutes;
-  const endInMinutes = (endHours * 60) + endMinutes;
-  const durationInMinutes = endInMinutes - startInMinutes;
+  console.log(event.endTime);
+  const startInMinutes = startMinutes;
+  console.log(endHours);
+  const startTimeMinHours = startHours * 60 + startMinutes;
+  const endInMinutes = endHours * 60 + endMinutes;
+  const durationInMinutes = endInMinutes - startTimeMinHours;
 
   return {
-    top: `${startInMinutes}px`,
+    top: `${(startInMinutes / 60) * 60}px`,
     height: `${durationInMinutes}px`,
   };
 };
 
 const DayView = () => {
-  //const events = useSelector((state) => state.calendar.calendars.events) || [];
   const calendars = useSelector((state) => state.calendar.calendars);
-  const allEvents = calendars.reduce((acc, calendar) => {
-    return acc.concat(calendar.events);
-  }, []);
-
+  const allEvents = calendars.reduce(
+    (acc, calendar) => acc.concat(calendar.events),
+    []
+  );
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
 
-  const allEventsDates = allEvents.map((event) => event.date);
-
-  // Filter events for the selected date
   const dayEvents = allEvents.filter(
     (event) =>
       new Date(event.date).toDateString() ===
@@ -139,26 +156,27 @@ const DayView = () => {
           <DayViewHour key={hour}>
             <HourLabel>{hour}</HourLabel>
             <HourEvents>
-              {dayEvents
-                .filter((event) => {
-                  const eventStartHour = event.startTime;
-                  const eventEndHour = event.endTime;
-                  return eventStartHour <= hour && hour < eventEndHour;
-                })
-                .map((event) => (
-                  <DayViewEvent
-                    key={event.id}
-                    style={{
-                      ...getEventStyle(event),
-                      backgroundColor: event.color,
-                    }}
-                  >
-                    <div>{event.title}</div>
-                    <div>
-                      {event.startTime} - {event.endTime}
-                    </div>
-                  </DayViewEvent>
-                ))}
+              {dayEvents.map((event) => {
+                const { hours: startHours } = parseTime(event.startTime);
+                const currentHour = parseTime(hour).hours;
+                if (currentHour === startHours) {
+                  return (
+                    <DayViewEvent
+                      color={event.color}
+                      key={event.id}
+                      style={{
+                        ...getEventStyle(event),
+                      }}
+                    >
+                      <EventTitle>{event.title}</EventTitle>
+                      <EventTime>
+                        {event.startTime} - {event.endTime}
+                      </EventTime>
+                    </DayViewEvent>
+                  );
+                }
+                return null;
+              })}
             </HourEvents>
           </DayViewHour>
         ))}

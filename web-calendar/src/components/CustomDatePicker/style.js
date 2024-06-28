@@ -3,13 +3,11 @@ import styled from "styled-components";
 export const DatePickerWrapper = styled.div`
   display: flex;
   justify-content: center;
-  background: #ffffff;
-  margin-left: 20px;
+  margin-left: 12px;
   padding: 0px;
   width: 240px;
   max-height: 284px;
   border-radius: 8px;
-
   position: relative;
   top: 20px;
   .date-picker-container {
@@ -25,7 +23,7 @@ export const DatePickerWrapper = styled.div`
     padding-top: 8px;
     padding-bottom: 8px;
     position: absolute;
-    background: #ffffff;
+    background: none;
   }
 
   .react-datepicker__navigation {
@@ -77,11 +75,11 @@ export const DatePickerWrapper = styled.div`
   .react-datepicker__month {
     margin: 0 auto;
     padding: 0px;
-    box-shadow: 0px 8px 16px 0px #3131311a;
   }
   .react-datepicker__month-container {
-
+    padding: 8px;
     border-radius: 8px;
+    background: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 

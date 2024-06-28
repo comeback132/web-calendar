@@ -5,7 +5,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f5f5f5;
+  background-color: #fFF;
   border-bottom: 1px solid #ddd;
 `;
 export const BrandControlsWrap=styled.div`
