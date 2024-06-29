@@ -47,7 +47,7 @@ const Header = () => {
         </BrandControlsWrap>
         <Controls>
             <CustomDropdown /> {/* Add the CustomDropdown */}
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 Username
                 <CustomButton secondary>
                   U

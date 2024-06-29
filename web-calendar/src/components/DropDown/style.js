@@ -23,6 +23,7 @@ export const Title = styled("h4")`
 
 export const DropDownHeader = styled("button")`
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 80px;
   height: 36px;

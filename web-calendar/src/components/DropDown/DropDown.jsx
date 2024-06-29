@@ -29,7 +29,7 @@ const CustomDropdown = ({ title }) => {
     <DropDownContainer data-testid="dropdown-container">
       <Title>{title}</Title>
       <DropDownHeader role="selected" onClick={toggling} data-testid="dropdown-trigger">
-        {selectedOption || "Week"}
+        {selectedOption || "Day"}
         <CustomIcon src={downsmall} />
       </DropDownHeader>
       {isOpen && (

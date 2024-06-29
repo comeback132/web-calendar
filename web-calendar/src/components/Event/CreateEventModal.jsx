@@ -10,6 +10,11 @@ import Checkbox from "@/components/CheckBox/Checkbox";
 import TextArea from "@/components/TextArea/TextArea";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { addEvent } from "@/features/calendar/calendarSlice";
+import Icon from "@/components/Icon/Icon";
+import titleIcon from "@/assets/titleIcon.png";
+import clock from "@/assets/clock.png";
+import calendarIcon from "@/assets/calendarIcon.png";
+import description from "@/assets/pdescription.png";
 
 const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
@@ -130,7 +135,9 @@ const CreateEventModal = ({ onCreate, onClose }) => {
     dispatch(setSelectedDate(date.toString()));
   };
   const handleSave = () => {
-    dispatch(addEvent({ title, date, color, startTime, endTime, allDay, calendarId }));
+    dispatch(
+      addEvent({ title, date, color, startTime, endTime, allDay, calendarId })
+    );
     onClose();
   };
 
@@ -142,14 +149,18 @@ const CreateEventModal = ({ onCreate, onClose }) => {
           <CloseButton onClick={onClose}>X</CloseButton>
         </ModalHeader>
         <ModalBody>
-          <CustomInput
-            label="Title"
-            placeholder="Title121323"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <ElementWrap>
+            <Icon src={titleIcon} />
+            <CustomInput
+              label="Title"
+              placeholder="Title121323"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </ElementWrap>
           <DateTimeWrapper>
+            <Icon src={clock} />
             <CustomInput
               label="Date"
               onClick={() => setChooseDate(!chooseDate)}
@@ -186,21 +197,29 @@ const CreateEventModal = ({ onCreate, onClose }) => {
             label="All day"
             onChange={(e) => setAllDay(e.target.checked)}
           />
-          <CalendarSelectMenu
-            onChange={(calendarId) => {
-              setCalendarId(calendarId); // Set calendarId state
-              const selectedCalendar = calendars.find(
-                (calendar) => calendar.id === calendarId
-              );
-              console.log(selectedCalendar);
-              setColor(selectedCalendar.color);
-              setSelectedCalendar(selectedCalendar); // Set selected calendar state for display
-            }}
-            options={calendars}
-            title="Calendar"
-          />
-
-          <TextArea title="Description" children={"Enter description"}></TextArea>
+          <ElementWrap>
+            <Icon src={calendarIcon} />
+            <CalendarSelectMenu
+              onChange={(calendarId) => {
+                setCalendarId(calendarId); // Set calendarId state
+                const selectedCalendar = calendars.find(
+                  (calendar) => calendar.id === calendarId
+                );
+                console.log(selectedCalendar);
+                setColor(selectedCalendar.color);
+                setSelectedCalendar(selectedCalendar); // Set selected calendar state for display
+              }}
+              options={calendars}
+              title="Calendar"
+            />
+          </ElementWrap>
+          <ElementWrap>
+            <Icon src={description} />
+            <TextArea
+              title="Description"
+              children={"Enter description"}
+            ></TextArea>
+          </ElementWrap>
         </ModalBody>
         <ModalFooter>
           <CustomButton onClick={handleSave}>Save</CustomButton>
@@ -264,7 +283,6 @@ const Label = styled.label`
 const DatePickerWrapper = styled.div`
   position: absolute;
   z-index: 999;
-  
 `;
 
 const DateTimeWrapper = styled.div`
@@ -321,4 +339,11 @@ const SaveButton = styled.button`
   color: white;
   padding: 8px 16px;
   cursor: pointer;
+`;
+const ElementWrap = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    padding-right: 10px;
+  }
 `;
