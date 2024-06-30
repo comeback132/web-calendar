@@ -9,7 +9,7 @@ const initialState = {
       events: [],
     },
   ],
-  selectedDate: new Date().toString(),
+  selectedDate: new Date(),
 };
 
 const calendarSlice = createSlice({
@@ -31,7 +31,6 @@ const calendarSlice = createSlice({
           repeat,
         });
       }
-      console.log(state.calendars.events)
     },
     editEvent: (state, action) => {
       const { calendarId, eventId, updatedEvent } = action.payload;

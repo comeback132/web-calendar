@@ -8,7 +8,7 @@ import {
   ListItem,
 } from "./CalendarSelectMenu.style";
 import CalendarCheckbox from "@/components/Event/CalendarCheckbox";
-import { CalendarCheckWrapper } from "@/components/CalendarList/CalendarList";
+import { CalendarCheckWrapper } from "@/components/CalendarList/CalendarList.style.jsx";
 
 const CalendarSelectMenu = ({ title, options, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);

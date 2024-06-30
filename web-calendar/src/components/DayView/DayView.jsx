@@ -1,75 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
-import rgba from "polished/lib/color/rgba";
 
-const DayViewWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
-  flex-grow: 1;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
+import { DayViewWrapper, DayViewHeader, DayViewBody, DayViewHour, HourLabel, HourEvents, DayViewEvent, EventTime, EventTitle } from "./style";
 
-const DayViewHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid #dedfe5;
-`;
-
-const DayViewBody = styled.div`
-  position: relative;
-  overflow: hidden;
-`;
-
-const DayViewHour = styled.div`
-  display: flex;
-  min-height: 59px;
-  position: relative;
-  align-items: center;
-  &:not(:last-child) {
-    border-bottom: 1px solid #dedfe5;
-  }
-`;
-
-const HourLabel = styled.div`
-  width: 60px;
-  height: 59px;
-  text-align: center;
-  border-right: 1px solid #dedfe5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const HourEvents = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-`;
-
-const DayViewEvent = styled.div`
-  display: flex;
-  flex-wrap:wrap;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: absolute;
-  color: black;
-  z-index: 2;
-  width: 100%;
-  border-radius: 4px;
-  border-left: 6px solid ${(props) => props.color};
-  background-color: ${(props) =>
-    rgba(props.color, 0.3)}; /* Adjust opacity here */
-`;
-const EventTitle = styled.div`
-  padding-left: 12px;
-`;
-const EventTime = styled.div`
-  padding-left: 12px;
-`;
 
 const timeOptions = [
   "00:00 am",
@@ -97,11 +30,7 @@ const timeOptions = [
   "22:00 pm",
   "23:00 pm",
 ];
-const formatHourLabel = (hour) => {
-  const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
-  const amPm = hour < 12 ? "am" : "pm";
-  return `${formattedHour} ${amPm}`;
-};
+
 
 const parseTime = (time) => {
   const [timePart, period] = time.split(" ");
