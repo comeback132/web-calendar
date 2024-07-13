@@ -1,8 +1,6 @@
-import React, { Children, useState } from "react";
+import React, { useState } from "react";
 import downsmall from "@/assets/Property 1=down-small.png";
 import CustomIcon from "@/components/Icon/Icon";
-
-
 import {
   DropDownContainer,
   Title,
@@ -14,15 +12,16 @@ import {
 
 const options = ["Week", "Day"];
 
-const CustomDropdown = ({ title }) => {
+const CustomDropdown = ({ title, onOptionClicked }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const toggling = () => setIsOpen(!isOpen);
 
-  const onOptionClicked = (value) => () => {
+  const handleOptionClicked = (value) => () => {
     setSelectedOption(value);
     setIsOpen(false);
+    onOptionClicked(value); // Call the callback function to change the view
   };
 
   return (
@@ -37,7 +36,7 @@ const CustomDropdown = ({ title }) => {
           <DropDownList>
             {options.map((option) => (
               <ListItem
-                onClick={onOptionClicked(option)}
+                onClick={handleOptionClicked(option)}
                 key={option}
                 data-testid={`option-${option}`}
               >

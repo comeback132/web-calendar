@@ -116,6 +116,11 @@ const ElementWrap = styled.div`
     padding-right: 10px;
   }
 `;
+const RepeatWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left:20px;
+`;
 
 export {
   ModalOverlay,
@@ -135,4 +140,5 @@ export {
   ModalFooter,
   SaveButton,
   ElementWrap,
+  RepeatWrap
 };

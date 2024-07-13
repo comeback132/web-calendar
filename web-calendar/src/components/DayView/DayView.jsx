@@ -1,8 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { DayViewWrapper, DayViewHeader, DayViewBody, DayViewHour, HourLabel, HourEvents, DayViewEvent, EventTime, EventTitle } from "./style";
-
+import {
+  DayViewWrapper,
+  DayViewHeader,
+  DayViewBody,
+  DayViewHour,
+  HourLabel,
+  HourEvents,
+  DayViewEvent,
+  EventTime,
+  EventTitle,
+} from "./style";
 
 const timeOptions = [
   "00:00 am",
@@ -30,7 +39,6 @@ const timeOptions = [
   "22:00 pm",
   "23:00 pm",
 ];
-
 
 const parseTime = (time) => {
   const [timePart, period] = time.split(" ");
@@ -78,7 +86,12 @@ const DayView = () => {
   return (
     <DayViewWrapper>
       <DayViewHeader>
-        <h2>{new Date(selectedDate).toDateString()}</h2>
+        <h2>
+          {new Date(selectedDate).toLocaleDateString("en-US", {
+            day: "numeric",
+            weekday: "short",
+          })}
+        </h2>
       </DayViewHeader>
       <DayViewBody>
         {timeOptions.map((hour) => (

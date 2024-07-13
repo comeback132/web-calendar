@@ -5,6 +5,7 @@ import { setSelectedDate } from '@/features/calendar/calendarSlice';
 import Header from '@/components/Header/Header';
 import CalendarView from '@/features/calendar/CalendarView';
 import DayView from '@/components/DayView/DayView';
+import WeekView from './components/WeekView/WeekView';
 import CalendarList from '@/components/CalendarList/CalendarList';
 import CustomDatePicker from '@/components/CustomDatePicker/DatePicker';
 import CustomButton from '@/components/CustomButton/CustomButton';
@@ -49,7 +50,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<DayView />} />
               <Route path="/day" element={<DayView />} />
-              <Route path="/week" element={<div>Week View (to be implemented)</div>} />
+              <Route path="/week" element={<WeekView />} />
             </Routes>
           </div>
         </div>

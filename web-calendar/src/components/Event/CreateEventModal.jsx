@@ -18,11 +18,13 @@ import {
   ModalFooter,
   SaveButton,
   ElementWrap,
+  RepeatWrap
 } from "./CreateEventModal.style";
 
 import { setSelectedDate } from "@/features/calendar/calendarSlice";
 import DatePicker from "@/components/CustomDatePicker/DatePicker";
 import SelectMenu from "@/components/SelectMenu/SelectMenu";
+import RepeatSelectMenu from "./RepeatSelectMenu";
 import CalendarSelectMenu from "@/components/Event/CalendarSelectMenu";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import Checkbox from "@/components/CheckBox/Checkbox";
@@ -45,6 +47,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   const [allDay, setAllDay] = useState(false);
   const [calendarId, setCalendarId] = useState("default");
   const [selectedCalendar, setSelectedCalendar] = useState(null);
+  const [repeatOption, setRepeatOption] = useState("Does not repeat");
 
   const timeOptions = [
     "00:00 am",
@@ -145,6 +148,14 @@ const CreateEventModal = ({ onCreate, onClose }) => {
     "23:45 pm",
   ];
 
+  const repeatOptions = [
+    "Does not repeat",
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Yearly",
+  ];
+
   const calendars = useSelector((state) => state.calendar.calendars);
   const dispatch = useDispatch();
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
@@ -155,7 +166,16 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   };
   const handleSave = () => {
     dispatch(
-      addEvent({ title, date, color, startTime, endTime, allDay, calendarId })
+      addEvent({
+        title,
+        date,
+        color,
+        startTime,
+        endTime,
+        allDay,
+        calendarId,
+        repeatOption,
+      })
     );
     onClose();
   };
@@ -172,7 +192,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
             <Icon src={titleIcon} />
             <CustomInput
               label="Title"
-              placeholder="Title121323"
+              placeholder="Enter title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -210,12 +230,18 @@ const CreateEventModal = ({ onCreate, onClose }) => {
               onChange={setEndTime}
             ></SelectMenu>
           </DateTimeWrapper>
-          <Checkbox
-            checked={allDay}
-            text="All day"
-            label="All day"
-            onChange={(e) => setAllDay(e.target.checked)}
-          />
+          <RepeatWrap>
+            <Checkbox
+              checked={allDay}
+              text="All day"
+              label="All day"
+              onChange={(e) => setAllDay(e.target.checked)}
+            />
+            <RepeatSelectMenu
+              options={repeatOptions}
+              onChange={(option) => setRepeatOption(option)}
+            />
+          </RepeatWrap>
           <ElementWrap>
             <Icon src={calendarIcon} />
             <CalendarSelectMenu

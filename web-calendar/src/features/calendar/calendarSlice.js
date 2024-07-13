@@ -17,19 +17,26 @@ const calendarSlice = createSlice({
   initialState,
   reducers: {
     addEvent: (state, action) => {
-      const { title, color, date, startTime, endTime, allDay, repeat, calendarId } = action.payload;
+      const { title, color, date, startTime, endTime, allDay, calendarId, repeatOption } = action.payload;
       const calendar = state.calendars.find(cal => cal.id === calendarId);
+
+      let events = [{
+        id: Date.now().toString(),
+        title,
+        color,
+        date: date.toString(),
+        startTime,
+        endTime,
+        allDay,
+      }];
+
+      if (repeatOption !== 'Does not repeat') {
+        const repeatedEvents = generateRepeatedEvents(action.payload);
+        events = events.concat(repeatedEvents);
+      }
+
       if (calendar) {
-        calendar.events.push({
-          id: Date.now().toString(),
-          title,
-          color,
-          date: date.toString(),
-          startTime,
-          endTime,
-          allDay,
-          repeat,
-        });
+        calendar.events.push(...events);
       }
     },
     editEvent: (state, action) => {
@@ -79,3 +86,46 @@ export const {
 } = calendarSlice.actions;
 
 export default calendarSlice.reducer;
+
+const generateRepeatedEvents = (event) => {
+  const { date, repeatOption, ...rest } = event;
+  let repeatedEvents = [];
+  let currentDate = new Date(date);
+
+  const addEvent = (date) => ({
+    ...rest,
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    date: date.toString(),
+  });
+
+  switch (repeatOption) {
+    case 'Daily':
+      for (let i = 1; i <= 365; i++) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        repeatedEvents.push(addEvent(new Date(currentDate)));
+      }
+      break;
+    case 'Weekly':
+      for (let i = 1; i <= 52; i++) {
+        currentDate.setDate(currentDate.getDate() + 7);
+        repeatedEvents.push(addEvent(new Date(currentDate)));
+      }
+      break;
+    case 'Monthly':
+      for (let i = 1; i <= 12; i++) {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        repeatedEvents.push(addEvent(new Date(currentDate)));
+      }
+      break;
+    case 'Yearly':
+      for (let i = 1; i <= 5; i++) {
+        currentDate.setFullYear(currentDate.getFullYear() + 1);
+        repeatedEvents.push(addEvent(new Date(currentDate)));
+      }
+      break;
+    default:
+      break;
+  }
+
+  return repeatedEvents;
+};

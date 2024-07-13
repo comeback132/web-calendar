@@ -13,8 +13,15 @@ export const DayViewWrapper = styled.div`
 
 export const DayViewHeader = styled.div`
   display: flex;
-  justify-content: center;
-  border-bottom: 1px solid #dedfe5;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  background-color:#DFF5E2;
+  border-radius: 8px;
+  height: 60px;
 `;
 
 export const DayViewBody = styled.div`
@@ -50,7 +57,7 @@ export const HourEvents = styled.div`
 
 export const DayViewEvent = styled.div`
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: flex-start;
   position: absolute;
