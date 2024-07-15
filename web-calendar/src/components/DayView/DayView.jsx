@@ -11,6 +11,9 @@ import {
   DayViewEvent,
   EventTime,
   EventTitle,
+  AllDayEventWrap,
+  AllDayEvent,
+  TodayDate,
 } from "./style";
 
 const timeOptions = [
@@ -82,16 +85,27 @@ const DayView = () => {
       new Date(event.date).toDateString() ===
       new Date(selectedDate).toDateString()
   );
+  const allDayEvents = dayEvents.filter((event) => event.allDay === true);
+  console.log(allDayEvents);
 
   return (
     <DayViewWrapper>
       <DayViewHeader>
-        <h2>
-          {new Date(selectedDate).toLocaleDateString("en-US", {
-            day: "numeric",
-            weekday: "short",
-          })}
-        </h2>
+        <TodayDate>
+          <h2>
+            {new Date(selectedDate).toLocaleDateString("en-US", {
+              day: "numeric",
+              weekday: "short",
+            })}
+          </h2>
+        </TodayDate>
+        <AllDayEventWrap>
+          {allDayEvents.map((event) => (
+            <AllDayEvent color={event.color} key={event.id}>
+              <EventTitle>{event.title}</EventTitle>
+            </AllDayEvent>
+          ))}
+        </AllDayEventWrap>
       </DayViewHeader>
       <DayViewBody>
         {timeOptions.map((hour) => (
@@ -101,7 +115,7 @@ const DayView = () => {
               {dayEvents.map((event) => {
                 const { hours: startHours } = parseTime(event.startTime);
                 const currentHour = parseTime(hour).hours;
-                if (currentHour === startHours) {
+                if (currentHour === startHours && !event.allDay) {
                   return (
                     <DayViewEvent
                       color={event.color}

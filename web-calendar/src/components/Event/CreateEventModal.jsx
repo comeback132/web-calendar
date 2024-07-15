@@ -18,7 +18,7 @@ import {
   ModalFooter,
   SaveButton,
   ElementWrap,
-  RepeatWrap
+  RepeatWrap,
 } from "./CreateEventModal.style";
 
 import { setSelectedDate } from "@/features/calendar/calendarSlice";
@@ -218,17 +218,21 @@ const CreateEventModal = ({ onCreate, onClose }) => {
                 />
               </DatePickerWrapper>
             )}
-            <SelectMenu
-              title="Time"
-              options={timeOptions}
-              onChange={setStartTime}
-            ></SelectMenu>
-            <span style={{ position: "relative", top: "5px" }}>-</span>
-            <SelectMenu
-              title="Time"
-              options={timeOptions}
-              onChange={setEndTime}
-            ></SelectMenu>
+            {!allDay && (
+              <>
+                <SelectMenu
+                  title="Start Time"
+                  options={timeOptions}
+                  onChange={setStartTime}
+                />
+                <span style={{ position: "relative", top: "5px" }}>-</span>
+                <SelectMenu
+                  title="End Time"
+                  options={timeOptions}
+                  onChange={setEndTime}
+                />
+              </>
+            )}
           </DateTimeWrapper>
           <RepeatWrap>
             <Checkbox
@@ -246,13 +250,13 @@ const CreateEventModal = ({ onCreate, onClose }) => {
             <Icon src={calendarIcon} />
             <CalendarSelectMenu
               onChange={(calendarId) => {
-                setCalendarId(calendarId); // Set calendarId state
+                setCalendarId(calendarId); 
                 const selectedCalendar = calendars.find(
                   (calendar) => calendar.id === calendarId
                 );
                 console.log(selectedCalendar);
                 setColor(selectedCalendar.color);
-                setSelectedCalendar(selectedCalendar); // Set selected calendar state for display
+                setSelectedCalendar(selectedCalendar);
               }}
               options={calendars}
               title="Calendar"

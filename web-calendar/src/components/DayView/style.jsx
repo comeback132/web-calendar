@@ -17,11 +17,38 @@ export const DayViewHeader = styled.div`
   align-items: center;
   flex: 1;
   text-align: center;
-  padding: 10px;
+  padding-bottom: 10px;
   margin: 5px;
-  background-color:#DFF5E2;
+`;
+
+export const TodayDate = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #dff5e2;
+  width: 100%;
   border-radius: 8px;
   height: 60px;
+  margin-bottom: 5px;
+`;
+
+export const AllDayEventWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px;
+`;
+
+export const AllDayEvent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  border-left: 6px solid ${(props) => props.color};
+  background-color: ${(props) =>
+    rgba(props.color, 0.3)}; /* Adjust opacity here */
 `;
 
 export const DayViewBody = styled.div`
