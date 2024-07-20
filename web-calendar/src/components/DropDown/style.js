@@ -48,6 +48,7 @@ export const DropDownHeader = styled("button")`
 export const DropDownListContainer = styled("div")`
   margin-top: 3px;
   position: absolute;
+  z-index: 10;
 `;
 
 export const DropDownList = styled("ul")`
@@ -62,6 +63,7 @@ export const DropDownList = styled("ul")`
   margin: 0;
   max-height: 180px;
   background: #ffffff;
+  
 `;
 
 export const ListItem = styled("li")`

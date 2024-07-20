@@ -12,6 +12,8 @@ import {
   HourSlot,
   EventItem,
   HourLabel,
+  AllDayEventWrap,
+  AllDayEvent,
 } from "./style";
 import {
   DayViewEvent,
@@ -84,6 +86,8 @@ const WeekView = () => {
     const eventDate = new Date(event.date);
     return eventDate >= startOfWeek && eventDate <= endOfWeek;
   });
+  const allDayEvents = weekEvents.filter((event) => event.allDay === true);
+  console.log(allDayEvents);
 
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const dates = Array.from({ length: 7 }, (_, i) => {
@@ -101,6 +105,15 @@ const WeekView = () => {
               <DateTitle>{formatDate(date)}</DateTitle>
               <DayTitle>{days[index]}</DayTitle>
             </DayName>
+            <AllDayEventWrap>
+              {allDayEvents
+                .filter((event) => new Date(event.date).toDateString() === date.toDateString())
+                .map((event) => (
+                  <AllDayEvent color={event.color} key={event.id}>
+                    <EventTitle>{event.title}</EventTitle>
+                  </AllDayEvent>
+                ))}
+            </AllDayEventWrap>
           </DayHeader>
         ))}
       </WeekHeader>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import rgba from "polished/lib/color/rgba";
 
 export const WeekViewWrapper = styled.div`
   display: flex;
@@ -14,6 +15,9 @@ export const WeekHeader = styled.div`
   display: flex;
   margin-left: 55px;
   min-height: 150px;
+  z-index: 1;
+  position: sticky;
+  top: 0;
 `;
 
 export const WeekBody = styled.div`
@@ -34,17 +38,21 @@ export const DayColumn = styled.div`
 `;
 
 export const DayHeader = styled.div`
+position: relative;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   flex: 1;
   text-align: center;
-
+  z-index: 1;
+  position: sticky;
+  top: 0;
   border-right: 1px solid #ddd;
 `;
 
 export const DayName = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   flex: 1;
   text-align: center;
@@ -72,9 +80,25 @@ export const DateTitle = styled.div`
   letter-spacing: -0.30000001192092896px;
   text-align: center;
 `;
+export const AllDayEventWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+`;
+
+export const AllDayEvent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  border-left: 6px solid ${(props) => props.color};
+  background-color: ${(props) =>
+    rgba(props.color, 0.3)}; /* Adjust opacity here */
+`;
 
 export const HourSlot = styled.div`
-  height: 60px;
+  height: 59px;
   border-top: 1px solid #ddd;
   position: relative;
 `;
@@ -99,6 +123,8 @@ export const EventItem = styled.div`
 `;
 
 export const DayViewEvent = styled.div`
+display: flex;
+flex-wrap: wrap;
   position: absolute;
   width: 90%;
   left: 5%;
@@ -115,4 +141,5 @@ export const EventTitle = styled.div`
 
 export const EventTime = styled.div`
   font-size: 0.9em;
+  width: 50px;
 `;

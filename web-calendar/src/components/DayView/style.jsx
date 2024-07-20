@@ -4,7 +4,7 @@ import rgba from "polished/lib/color/rgba";
 export const DayViewWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px;
+  margin-top: 20px;
   flex-grow: 1;
   background: #fff;
   border-radius: 8px;
@@ -19,6 +19,9 @@ export const DayViewHeader = styled.div`
   text-align: center;
   padding-bottom: 10px;
   margin: 5px;
+  z-index: 1;
+  position: sticky;
+  top: 0;
 `;
 
 export const TodayDate = styled.div`
@@ -43,7 +46,6 @@ export const AllDayEvent = styled.div`
   display: flex;
   flex-wrap: wrap;
   color: black;
-  width: 100%;
   border-radius: 4px;
   margin-bottom: 5px;
   border-left: 6px solid ${(props) => props.color};
@@ -53,7 +55,7 @@ export const AllDayEvent = styled.div`
 
 export const DayViewBody = styled.div`
   position: relative;
-  overflow: hidden;
+  
 `;
 
 export const DayViewHour = styled.div`
@@ -89,16 +91,18 @@ export const DayViewEvent = styled.div`
   justify-content: flex-start;
   position: absolute;
   color: black;
-  z-index: 2;
-  width: 100%;
+  width: 95%;
   border-radius: 4px;
+  z-index: 1;
   border-left: 6px solid ${(props) => props.color};
   background-color: ${(props) =>
     rgba(props.color, 0.3)}; /* Adjust opacity here */
 `;
 export const EventTitle = styled.div`
   padding-left: 12px;
+  font-size: calc(0.6vw + 0.6vh);
 `;
 export const EventTime = styled.div`
   padding-left: 12px;
+  font-size: calc(0.5vw + 0.5vh);
 `;

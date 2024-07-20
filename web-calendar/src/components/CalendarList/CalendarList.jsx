@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CreateCalendarModal from "./CreateCalendarModal";
+import EditCalendarModal from "@/components/CalendarList/EditCalendarModel";
 import DeleteCalendarModal from "./DeleteCalendarModal";
-import {
-  addCalendar,
-  deleteCalendar,
-} from "../../features/calendar/calendarSlice";
-import Checkbox from "@/components/CheckBox/Checkbox";
+import { addCalendar, deleteCalendar, editCalendar } from "../../features/calendar/calendarSlice";
+import Checkbox from "@/components/CalendarList/Checkbox";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Container, Header, Title, EditButton, AddButton, List, ListItem, CalendarCheckWrapper, CalendarControls } from "./CalendarList.style";
 
 const CalendarList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCalendar, setSelectedCalendar] = useState(null);
   const [hoveredCalendarId, setHoveredCalendarId] = useState(null);
@@ -30,6 +29,13 @@ const CalendarList = () => {
     setShowCreateModal(false);
   };
 
+  const handleEditCalendar = (id, name, color) => {
+    console.log("Dispatching editCalendar with", id, name, color);
+    const updatedCalendar = { id, name, color };
+    dispatch(editCalendar({ calendarId: id, updatedCalendar }));
+    setShowEditModal(false);
+  };
+
   const handleDeleteCalendar = (calendarId) => {
     dispatch(deleteCalendar(calendarId));
     setShowDeleteModal(false);
@@ -39,7 +45,9 @@ const CalendarList = () => {
     <Container>
       <Header>
         <Title>My calendars</Title>
-        <CustomButton icon="add" iconOnly onClick={() => setShowCreateModal(true)}>+</CustomButton>
+        <CustomButton icon="add" iconOnly onClick={() => setShowCreateModal(true)}>
+          +
+        </CustomButton>
       </Header>
       <List>
         {calendars.map((calendar) => (
@@ -60,7 +68,7 @@ const CalendarList = () => {
                   iconOnly
                   onClick={() => {
                     setSelectedCalendar(calendar);
-                    setShowCreateModal(true);
+                    setShowEditModal(true);
                   }}
                 ></CustomButton>
                 {calendar.name !== "Default Calendar" && (
@@ -88,6 +96,14 @@ const CalendarList = () => {
         />
       )}
 
+      {showEditModal && selectedCalendar && (
+        <EditCalendarModal
+          calendar={selectedCalendar}
+          onEdit={handleEditCalendar}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
+
       {showDeleteModal && selectedCalendar && (
         <DeleteCalendarModal
           calendar={selectedCalendar}
@@ -100,4 +116,3 @@ const CalendarList = () => {
 };
 
 export default CalendarList;
-

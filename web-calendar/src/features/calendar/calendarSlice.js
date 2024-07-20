@@ -39,14 +39,11 @@ const calendarSlice = createSlice({
         calendar.events.push(...events);
       }
     },
-    editEvent: (state, action) => {
-      const { calendarId, eventId, updatedEvent } = action.payload;
-      const calendar = state.calendars.find(cal => cal.id === calendarId);
-      if (calendar) {
-        const eventIndex = calendar.events.findIndex(ev => ev.id === eventId);
-        if (eventIndex >= 0) {
-          calendar.events[eventIndex] = { ...calendar.events[eventIndex], ...updatedEvent };
-        }
+    editCalendar: (state, action) => {
+      const { calendarId, updatedCalendar } = action.payload;
+      const calendarIndex = state.calendars.findIndex(cal => cal.id === calendarId);
+      if (calendarIndex >= 0) {
+        state.calendars[calendarIndex] = { ...state.calendars[calendarIndex], ...updatedCalendar };
       }
     },
     deleteEvent: (state, action) => {
