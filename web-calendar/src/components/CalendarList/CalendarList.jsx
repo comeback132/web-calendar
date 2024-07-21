@@ -3,10 +3,25 @@ import { useSelector, useDispatch } from "react-redux";
 import CreateCalendarModal from "./CreateCalendarModal";
 import EditCalendarModal from "@/components/CalendarList/EditCalendarModel";
 import DeleteCalendarModal from "./DeleteCalendarModal";
-import { addCalendar, deleteCalendar, editCalendar } from "../../features/calendar/calendarSlice";
+import {
+  addCalendar,
+  deleteCalendar,
+  editCalendar,
+  toggleCalendarSelection,
+} from "../../features/calendar/calendarSlice";
 import Checkbox from "@/components/CalendarList/Checkbox";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Container, Header, Title, EditButton, AddButton, List, ListItem, CalendarCheckWrapper, CalendarControls } from "./CalendarList.style";
+import {
+  Container,
+  Header,
+  Title,
+  EditButton,
+  AddButton,
+  List,
+  ListItem,
+  CalendarCheckWrapper,
+  CalendarControls,
+} from "./CalendarList.style";
 
 const CalendarList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -24,6 +39,7 @@ const CalendarList = () => {
       name,
       color,
       events: [],
+      selected: true, // Set selected to true by default
     };
     dispatch(addCalendar(newCalendar));
     setShowCreateModal(false);
@@ -41,11 +57,19 @@ const CalendarList = () => {
     setShowDeleteModal(false);
   };
 
+  const handleCheckboxChange = (id) => {
+    dispatch(toggleCalendarSelection(id));
+  };
+
   return (
     <Container>
       <Header>
         <Title>My calendars</Title>
-        <CustomButton icon="add" iconOnly onClick={() => setShowCreateModal(true)}>
+        <CustomButton
+          icon="add"
+          iconOnly
+          onClick={() => setShowCreateModal(true)}
+        >
           +
         </CustomButton>
       </Header>
@@ -58,7 +82,11 @@ const CalendarList = () => {
             onMouseLeave={() => setHoveredCalendarId(null)}
           >
             <CalendarCheckWrapper>
-              <Checkbox color={calendar.color} />
+              <Checkbox
+                color={calendar.color}
+                checked={calendar.selected}
+                onChange={() => handleCheckboxChange(calendar.id)}
+              />
               <span>{calendar.name}</span>
             </CalendarCheckWrapper>
             {hoveredCalendarId === calendar.id && (

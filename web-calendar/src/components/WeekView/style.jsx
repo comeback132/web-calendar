@@ -54,7 +54,8 @@ export const DayName = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  position: sticky;
+  z-index: 1;
   text-align: center;
   padding: 10px;
   margin: 5px;

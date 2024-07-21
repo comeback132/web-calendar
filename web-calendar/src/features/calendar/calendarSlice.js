@@ -7,6 +7,7 @@ const initialState = {
       name: 'Default Calendar',
       color: '#00AE1C',
       events: [],
+      selected: true,
     },
   ],
   selectedDate: new Date(),
@@ -69,6 +70,13 @@ const calendarSlice = createSlice({
     setSelectedDate: (state, action) => {
       state.selectedDate = action.payload;
     },
+    toggleCalendarSelection: (state, action) => {
+      const calendar = state.calendars.find(cal => cal.id === action.payload);
+      if (calendar) {
+        calendar.selected = !calendar.selected;
+      }
+      console.log(state.calendars);
+    },
   },
 });
 
@@ -80,6 +88,7 @@ export const {
   editCalendar,
   deleteCalendar,
   setSelectedDate,
+  toggleCalendarSelection,  // Export new action
 } = calendarSlice.actions;
 
 export default calendarSlice.reducer;

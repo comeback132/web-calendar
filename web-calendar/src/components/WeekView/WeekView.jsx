@@ -22,6 +22,7 @@ import {
 } from "@/components/DayView/style";
 
 const parseTime = (time) => {
+  if (!time) return { hours: 0, minutes: 0 }; // Default to 0 hours and 0 minutes if time is undefined
   const [timePart, period] = time.split(" ");
   let [hours, minutes] = timePart.split(":").map(Number);
   if (period.toLowerCase() === "pm" && hours !== 12) {
@@ -74,10 +75,14 @@ const isToday = (date) => {
 
 const WeekView = () => {
   const calendars = useSelector((state) => state.calendar.calendars);
-  const allEvents = calendars.reduce(
-    (acc, calendar) => acc.concat(calendar.events),
-    []
-  );
+   // Filter selected calendars
+   const selectedCalendars = calendars.filter((calendar) => calendar.selected);
+  
+   // Combine events from selected calendars
+   const allEvents = selectedCalendars.reduce(
+     (acc, calendar) => acc.concat(calendar.events),
+     []
+   );
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
   const startOfWeek = getStartOfWeek(new Date(selectedDate));
   const endOfWeek = getEndOfWeek(new Date(selectedDate));
@@ -130,8 +135,9 @@ const WeekView = () => {
                 {weekEvents
                   .filter(
                     (event) =>
-                      new Date(event.date).toDateString() ===
-                      date.toDateString()
+                      (new Date(event.date).toDateString() ===
+                        date.toDateString() &&
+                        !event.allDay)
                   )
                   .map((event) => {
                     const { hours: startHours } = parseTime(event.startTime);

@@ -165,18 +165,21 @@ const CreateEventModal = ({ onCreate, onClose }) => {
     dispatch(setSelectedDate(date.toString()));
   };
   const handleSave = () => {
-    dispatch(
-      addEvent({
-        title,
-        date,
-        color,
-        startTime,
-        endTime,
-        allDay,
-        calendarId,
-        repeatOption,
-      })
-    );
+    const event = {
+      title,
+      date,
+      color,
+      allDay,
+      calendarId,
+      repeatOption,
+    };
+
+    if (!allDay) {
+      event.startTime = startTime;
+      event.endTime = endTime;
+    }
+
+    dispatch(addEvent(event));
     onClose();
   };
 

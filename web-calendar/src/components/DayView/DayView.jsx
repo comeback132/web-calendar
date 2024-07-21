@@ -44,6 +44,7 @@ const timeOptions = [
 ];
 
 const parseTime = (time) => {
+  if (!time) return { hours: 0, minutes: 0 }; // Default to 0 hours and 0 minutes if time is undefined
   const [timePart, period] = time.split(" ");
   let [hours, minutes] = timePart.split(":").map(Number);
   if (period.toLowerCase() === "pm" && hours !== 12) {
@@ -74,10 +75,14 @@ const getEventStyle = (event) => {
 
 const DayView = () => {
   const calendars = useSelector((state) => state.calendar.calendars);
-  const allEvents = calendars.reduce(
-    (acc, calendar) => acc.concat(calendar.events),
-    []
-  );
+   // Filter selected calendars
+   const selectedCalendars = calendars.filter((calendar) => calendar.selected);
+  
+   // Combine events from selected calendars
+   const allEvents = selectedCalendars.reduce(
+     (acc, calendar) => acc.concat(calendar.events),
+     []
+   );
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
 
   const dayEvents = allEvents.filter(
