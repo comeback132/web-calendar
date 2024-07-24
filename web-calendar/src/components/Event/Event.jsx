@@ -1,4 +1,3 @@
-// src/features/calendar/Event.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 

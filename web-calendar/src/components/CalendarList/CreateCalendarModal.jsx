@@ -1,11 +1,12 @@
-// src/components/CalendarList/CreateCalendarModal.jsx
 import React, { useState } from "react";
 import {ModalOverlay, Modal, ModalHeader, ModalTitle, CloseButton, ModalBody, Label, Input, ModalFooter, SaveButton, ElementWrap} from "./CreateCalendarModal.style";
 import ColourPicker from "../ColourPicker/ColourPicker";
 import CustomInput from "../CustomInput/CustomInput";
 import Icon from "../Icon/Icon";
+import CustomButton from "../CustomButton/CustomButton";
 import titleIcon from "@/assets/titleIcon.png";
 import colorPicker from "@/assets/colorPickerIcon.png";
+
 
 const CreateCalendarModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
@@ -20,7 +21,7 @@ const CreateCalendarModal = ({ onCreate, onClose }) => {
       <Modal>
         <ModalHeader>
           <ModalTitle>Create calendar</ModalTitle>
-          <CloseButton onClick={onClose}>X</CloseButton>
+          <CustomButton icon="close" iconOnly onClick={onClose}></CustomButton>
         </ModalHeader>
         <ModalBody>
           <ElementWrap>

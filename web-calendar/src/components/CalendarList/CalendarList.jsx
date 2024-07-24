@@ -11,18 +11,7 @@ import {
 } from "../../features/calendar/calendarSlice";
 import Checkbox from "@/components/CalendarList/Checkbox";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import {
-  Container,
-  Header,
-  Title,
-  EditButton,
-  AddButton,
-  List,
-  ListItem,
-  CalendarCheckWrapper,
-  CalendarControls,
-} from "./CalendarList.style";
-
+import Styled from "./CalendarList.style";
 const CalendarList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -39,14 +28,13 @@ const CalendarList = () => {
       name,
       color,
       events: [],
-      selected: true, // Set selected to true by default
+      selected: true, 
     };
     dispatch(addCalendar(newCalendar));
     setShowCreateModal(false);
   };
 
   const handleEditCalendar = (id, name, color) => {
-    console.log("Dispatching editCalendar with", id, name, color);
     const updatedCalendar = { id, name, color };
     dispatch(editCalendar({ calendarId: id, updatedCalendar }));
     setShowEditModal(false);
@@ -62,35 +50,34 @@ const CalendarList = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <Title>My calendars</Title>
+    <Styled.Container>
+      <Styled.Header>
+        <Styled.Title>My calendars</Styled.Title>
         <CustomButton
           icon="add"
           iconOnly
           onClick={() => setShowCreateModal(true)}
         >
-          +
         </CustomButton>
-      </Header>
-      <List>
+      </Styled.Header>
+      <Styled.List>
         {calendars.map((calendar) => (
-          <ListItem
+          <Styled.ListItem
             key={calendar.id}
             color={calendar.color}
             onMouseEnter={() => setHoveredCalendarId(calendar.id)}
             onMouseLeave={() => setHoveredCalendarId(null)}
           >
-            <CalendarCheckWrapper>
+            <Styled.CalendarCheckWrapper>
               <Checkbox
                 color={calendar.color}
                 checked={calendar.selected}
                 onChange={() => handleCheckboxChange(calendar.id)}
               />
               <span>{calendar.name}</span>
-            </CalendarCheckWrapper>
+            </Styled.CalendarCheckWrapper>
             {hoveredCalendarId === calendar.id && (
-              <CalendarControls>
+              <Styled.CalendarControls>
                 <CustomButton
                   icon="edit"
                   iconOnly
@@ -108,14 +95,13 @@ const CalendarList = () => {
                       setShowDeleteModal(true);
                     }}
                   >
-                    X
                   </CustomButton>
                 )}
-              </CalendarControls>
+              </Styled.CalendarControls>
             )}
-          </ListItem>
+          </Styled.ListItem>
         ))}
-      </List>
+      </Styled.List>
 
       {showCreateModal && (
         <CreateCalendarModal
@@ -139,7 +125,7 @@ const CalendarList = () => {
           onClose={() => setShowDeleteModal(false)}
         />
       )}
-    </Container>
+    </Styled.Container>
   );
 };
 

@@ -73,4 +73,4 @@ const CalendarControls = styled.div`
   display: flex;
 `;
 
-export { Container, Header, Title, EditButton, AddButton, List, ListItem, CalendarCheckWrapper, CalendarControls };
+export default { Container, Header, Title, EditButton, AddButton, List, ListItem, CalendarCheckWrapper, CalendarControls };

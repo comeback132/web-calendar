@@ -1,4 +1,3 @@
-// src/components/ColourPicker/ColourPicker.jsx
 import React from 'react';
 import { ColourPickerWrap, colors, Title, InputWrap, LabelWrap, InputPicker } from './style';
 

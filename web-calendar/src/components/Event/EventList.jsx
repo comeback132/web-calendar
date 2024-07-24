@@ -1,4 +1,3 @@
-// src/features/calendar/EventList.jsx
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Event from '@/components/Event/Event';

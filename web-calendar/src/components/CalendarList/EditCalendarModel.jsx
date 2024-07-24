@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ModalOverlay, Modal, ModalHeader, ModalTitle, CloseButton, ModalBody, Label, Input, ModalFooter, SaveButton, ElementWrap } from "./CreateCalendarModal.style";
+import { ModalOverlay, Modal, ModalHeader, ModalTitle, CloseButton, ModalBody,  ModalFooter, SaveButton, ElementWrap } from "./CreateCalendarModal.style";
 import ColourPicker from "../ColourPicker/ColourPicker";
 import CustomInput from "../CustomInput/CustomInput";
+import CustomButton from "../CustomButton/CustomButton";
 import Icon from "../Icon/Icon";
 import titleIcon from "@/assets/titleIcon.png";
 import colorPicker from "@/assets/colorPickerIcon.png";
@@ -26,7 +27,7 @@ const EditCalendarModal = ({ calendar, onEdit, onClose }) => {
       <Modal>
         <ModalHeader>
           <ModalTitle>Edit calendar</ModalTitle>
-          <CloseButton onClick={onClose}>X</CloseButton>
+          <CustomButton icon="close" iconOnly onClick={onClose}></CustomButton>
         </ModalHeader>
         <ModalBody>
           <ElementWrap>

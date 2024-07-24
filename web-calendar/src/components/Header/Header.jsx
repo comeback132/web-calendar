@@ -29,7 +29,7 @@ const Header = () => {
   };
 
   const handleViewChange = (view) => {
-    navigate(view.toLowerCase()); // Navigate to the corresponding view
+    navigate(view.toLowerCase());
   };
 
   return (

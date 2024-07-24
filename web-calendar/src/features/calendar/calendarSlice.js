@@ -75,7 +75,6 @@ const calendarSlice = createSlice({
       if (calendar) {
         calendar.selected = !calendar.selected;
       }
-      console.log(state.calendars);
     },
   },
 });
@@ -88,7 +87,7 @@ export const {
   editCalendar,
   deleteCalendar,
   setSelectedDate,
-  toggleCalendarSelection,  // Export new action
+  toggleCalendarSelection,
 } = calendarSlice.actions;
 
 export default calendarSlice.reducer;

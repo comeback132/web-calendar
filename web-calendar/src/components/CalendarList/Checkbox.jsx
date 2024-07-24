@@ -32,8 +32,3 @@ const Checkbox = ({ label, checked, color, onChange, ...props }) => {
 };
 
 export default Checkbox;
-
-
-//file
-
-//file

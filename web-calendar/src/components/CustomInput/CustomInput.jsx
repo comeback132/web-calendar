@@ -54,6 +54,3 @@ const CustomInput = ({
 };
 
 export default CustomInput;
-
-
-//file

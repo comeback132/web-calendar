@@ -11,6 +11,3 @@ const TextArea = ({ title, children }) => {
 };
 
 export default TextArea;
-
-
-//file

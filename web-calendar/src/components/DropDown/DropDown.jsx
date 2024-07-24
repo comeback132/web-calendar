@@ -21,7 +21,7 @@ const CustomDropdown = ({ title, onOptionClicked }) => {
   const handleOptionClicked = (value) => () => {
     setSelectedOption(value);
     setIsOpen(false);
-    onOptionClicked(value); // Call the callback function to change the view
+    onOptionClicked(value);
   };
 
   return (

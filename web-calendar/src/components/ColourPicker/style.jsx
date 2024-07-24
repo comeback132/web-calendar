@@ -7,7 +7,7 @@ export const Title = styled.h2`
   line-height: 12px;
   margin: 0px;
   padding-bottom: 7px;
-  letter-spacing: -0.20000000298023224px;
+  letter-spacing: -0.2px;
   text-align: left;
 `;
 export const Text = styled.p`
@@ -15,7 +15,7 @@ export const Text = styled.p`
   font-size: 15px;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: -0.30000001192092896px;
+  letter-spacing: -0.3px;
   text-align: left;
   color: #323749;
   border-bottom: 1px solid #737373;
@@ -76,5 +76,3 @@ export const colors = [
   "#6C7AC4",
   "#8332A4",
 ];
-
-//file

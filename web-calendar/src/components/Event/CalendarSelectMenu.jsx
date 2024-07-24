@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-  DropDownContainer,
-  Title,
-  DropDownHeader,
-  DropDownListContainer,
-  DropDownList,
-  ListItem,
-} from "./CalendarSelectMenu.style";
+import Styled from "./CalendarSelectMenu.style";
 import CalendarCheckbox from "@/components/Event/CalendarCheckbox";
-import { CalendarCheckWrapper } from "@/components/CalendarList/CalendarList.style.jsx";
+import StyledList  from "@/components/CalendarList/CalendarList.style.jsx";
 
 const CalendarSelectMenu = ({ title, options, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,46 +10,46 @@ const CalendarSelectMenu = ({ title, options, onChange }) => {
   const toggling = () => setIsOpen(!isOpen);
 
   const onOptionClicked = (option) => {
-    setSelectedOption(option); // Set selectedOption to the entire selected calendar object
+    setSelectedOption(option); 
     setIsOpen(false);
-    onChange(option.id); // Pass the id of the selected calendar to the parent onChange handler
+    onChange(option.id);
   };
 
   return (
-    <DropDownContainer>
-      <Title>{title}</Title>
-      <DropDownHeader onClick={toggling}>
+    <Styled.DropDownContainer>
+      <Styled.Title>{title}</Styled.Title>
+      <Styled.DropDownHeader onClick={toggling}>
         {selectedOption ? (
-          <CalendarCheckWrapper>
+          <StyledList.CalendarCheckWrapper>
             <CalendarCheckbox color={selectedOption.color} />
             <span>{selectedOption.name}</span>
-          </CalendarCheckWrapper>
+          </StyledList.CalendarCheckWrapper>
         ) : (
-          <CalendarCheckWrapper>
+          <StyledList.CalendarCheckWrapper>
             <CalendarCheckbox color="#00AE1C" /> {/* Default Calendar color */}
             <span>Default Calendar</span>
-          </CalendarCheckWrapper>
+          </StyledList.CalendarCheckWrapper>
         )}
-      </DropDownHeader>
+      </Styled.DropDownHeader>
       {isOpen && (
-        <DropDownListContainer>
-          <DropDownList>
+        <Styled.DropDownListContainer>
+          <Styled.DropDownList>
             {options.map((option) => (
-              <ListItem
+              <Styled.ListItem
                 data-testid="select-option"
                 onClick={() => onOptionClicked(option)}
                 key={option.id} // Use option.id as the key for each ListItem
               >
-                <CalendarCheckWrapper>
+                <StyledList.CalendarCheckWrapper>
                   <CalendarCheckbox color={option.color} />
                   <span>{option.name}</span>
-                </CalendarCheckWrapper>
-              </ListItem>
+                </StyledList.CalendarCheckWrapper>
+              </Styled.ListItem>
             ))}
-          </DropDownList>
-        </DropDownListContainer>
+          </Styled.DropDownList>
+        </Styled.DropDownListContainer>
       )}
-    </DropDownContainer>
+    </Styled.DropDownContainer>
   );
 };
 

@@ -39,8 +39,8 @@ const App = () => {
         <Header />
         <div className='app'>
           <div className='leftwrap'>
-            <CustomButton onClick={() => setShowCreateEventModal(true)} primary withIcon>
-              <img src={plus} alt="plus" />
+            <CustomButton icon='plus' onClick={() => setShowCreateEventModal(true)} primary withIcon>
+             
               Create
             </CustomButton>
             <CalendarList/>
