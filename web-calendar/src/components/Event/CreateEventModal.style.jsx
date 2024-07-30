@@ -114,6 +114,7 @@ const ElementWrap = styled.div`
   align-items: center;
   img {
     padding-right: 10px;
+    padding-top: 10px;
   }
 `;
 const RepeatWrap = styled.div`

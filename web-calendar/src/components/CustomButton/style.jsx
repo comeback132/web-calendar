@@ -1,18 +1,27 @@
-import styled, { css } from 'styled-components';
-
+import styled, { css } from "styled-components";
 
 const Button = styled.button`
-  height:36px;
-  width:60px;
-  color:#FFFFFF;
-  background: #00AE1C;
-  font-size:15px;
-  padding:12px, 10px, 12px, 10px;
-  border:none;
-  border-radius:8px;
+  height: 36px;
+  width: 60px;
+  color: #ffffff;
+  background: #00ae1c;
+  font-size: 15px;
+  padding: 12px, 10px, 12px, 10px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  img {
+    margin: 0;
+  }
+  p {
+    height: 16px;
+  }
 
-  ${props =>
+  ${(props) =>
     props.primary &&
     css`
       height:36px;
@@ -31,7 +40,7 @@ const Button = styled.button`
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.secondary &&
     css`
       background:transparent;
@@ -51,32 +60,31 @@ const Button = styled.button`
       }
     `}
 
-   ${props =>
+   ${(props) =>
     props.withIcon &&
     css`
       display: flex;
       align-items: center;
       justify-content: center;
     `}
-    ${props =>
-      props.iconOnly &&
-      css`
-        background-color: transparent;
-        border: none;
-        width: auto;
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      `}
+    ${(props) =>
+    props.iconOnly &&
+    css`
+      background-color: transparent;
+      border: none;
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `}
   
-    ${props =>
-      props.disabled &&
-      css`
-        filter: brightness(50%);
-        cursor: not-allowed;
-      `}
-  
+    ${(props) =>
+    props.disabled &&
+    css`
+      filter: brightness(50%);
+      cursor: not-allowed;
+    `}
 `;
 
 export default Button;

@@ -7,6 +7,7 @@ export const HeaderContainer = styled.header`
   padding: 10px 20px;
   background-color: #fFF;
   border-bottom: 1px solid #ddd;
+  cursor: pointer;
 `;
 export const BrandControlsWrap=styled.div`
   display: flex;

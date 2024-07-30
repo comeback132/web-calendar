@@ -11,6 +11,7 @@ const ColourPicker = ({ title, value, onChange }) => {
             key={color}
             role="checkbox"
             style={{ background: color }}
+            checked={value === color}
             onClick={() => onChange(color)}
           >
             <InputPicker

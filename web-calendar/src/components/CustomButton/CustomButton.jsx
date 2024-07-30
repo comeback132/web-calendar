@@ -18,7 +18,7 @@ const CustomButton = ({ children, icon, iconOnly, withIcon, ...props }) => {
   return (
     <Button {...props} iconOnly={iconOnly} withicon={!!icon}>
       {icon && <img src={iconMap[icon]} />}
-      {!iconOnly && children}
+      <p>{!iconOnly && children}</p>
     </Button>
   );
 };

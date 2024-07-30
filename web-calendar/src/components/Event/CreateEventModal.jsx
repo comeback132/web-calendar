@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { format } from 'date-fns';
 import {
   ModalOverlay,
   Modal,
@@ -12,6 +13,7 @@ import {
   ElementWrap,
   RepeatWrap,
 } from "./CreateEventModal.style";
+import { ErrorMessage } from "../CustomInput/style";
 import { setSelectedDate } from "@/features/calendar/calendarSlice";
 import DatePicker from "@/components/CustomDatePicker/DatePicker";
 import SelectMenu from "@/components/SelectMenu/SelectMenu";
@@ -27,7 +29,11 @@ import titleIcon from "@/assets/titleIcon.png";
 import clock from "@/assets/clock.png";
 import calendarIcon from "@/assets/calendarIcon.png";
 import description from "@/assets/pdescription.png";
-import { timeOptions, repeatOptions } from "../../constants/constants";
+import {
+  timeOptions,
+  repeatOptions,
+  eventTimeOptions,
+} from "../../constants/constants";
 
 const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
@@ -41,18 +47,44 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   const [selectedCalendar, setSelectedCalendar] = useState(null);
   const [repeatOption, setRepeatOption] = useState("Does not repeat");
 
-
-
+  const [errors, setErrors] = useState({});
 
   const calendars = useSelector((state) => state.calendar.calendars);
   const dispatch = useDispatch();
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
+  const dateToFormat = new Date(selectedDate);
+  const formattedDate = format(dateToFormat, 'eeee, MMMM d');
 
   const handleDateChange = (date) => {
     setDate(date);
     dispatch(setSelectedDate(date.toString()));
   };
+
+  const validateFields = () => {
+    const newErrors = {};
+
+    if (title.trim() === "") {
+      newErrors.title = "Title is required";
+    }
+    if (!date) {
+      newErrors.date = "Date is required";
+    }
+    if (!allDay && (startTime.trim() === "" || endTime.trim() === "")) {
+      newErrors.time = "Start and end times are required";
+    }
+    if (!calendarId) {
+      newErrors.calendarId = "Calendar is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSave = () => {
+    if (!validateFields()) {
+      return;
+    }
+
     const event = {
       title,
       date,
@@ -76,7 +108,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
       <Modal>
         <ModalHeader>
           <ModalTitle>Create event</ModalTitle>
-          <CustomButton icon='close' iconOnly onClick={onClose}>X</CustomButton>
+          <CustomButton icon="close" iconOnly onClick={onClose} />
         </ModalHeader>
         <ModalBody>
           <ElementWrap>
@@ -87,16 +119,24 @@ const CreateEventModal = ({ onCreate, onClose }) => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              error={errors.title}
             />
+            {errors.title && <ErrorMessage></ErrorMessage>}
           </ElementWrap>
-          <DateTimeWrapper>
-            <Icon src={clock} />
+          <DateTimeWrapper
+            style={{
+              paddingTop: allDay ? "16px" : "",
+            }}
+          >
+            <Icon src={clock} style={{ position:'relative',top: "5px" }} />
             <CustomInput
               label="Date"
               onClick={() => setChooseDate(!chooseDate)}
               type="text"
-              value={new Date(selectedDate).toDateString()}
-              onChange={(e) => {}}
+              style={{ cursor: "pointer" }}
+              value={formattedDate}
+              onChange={() => {}}
+              error={errors.date}
             />
             {chooseDate && (
               <DatePickerWrapper>
@@ -109,19 +149,23 @@ const CreateEventModal = ({ onCreate, onClose }) => {
                 />
               </DatePickerWrapper>
             )}
+            {errors.date && <ErrorMessage>{errors.date}</ErrorMessage>}
             {!allDay && (
               <>
                 <SelectMenu
                   title="Start Time"
-                  options={timeOptions}
+                  options={eventTimeOptions}
                   onChange={setStartTime}
+                  error={errors.time}
                 />
                 <span style={{ position: "relative", top: "5px" }}>-</span>
                 <SelectMenu
                   title="End Time"
-                  options={timeOptions}
+                  options={eventTimeOptions}
                   onChange={setEndTime}
+                  error={errors.time}
                 />
+                {errors.time && <ErrorMessage>{errors.time}</ErrorMessage>}
               </>
             )}
           </DateTimeWrapper>
@@ -141,24 +185,24 @@ const CreateEventModal = ({ onCreate, onClose }) => {
             <Icon src={calendarIcon} />
             <CalendarSelectMenu
               onChange={(calendarId) => {
-                setCalendarId(calendarId); 
+                setCalendarId(calendarId);
                 const selectedCalendar = calendars.find(
                   (calendar) => calendar.id === calendarId
                 );
-                console.log(selectedCalendar);
                 setColor(selectedCalendar.color);
                 setSelectedCalendar(selectedCalendar);
               }}
               options={calendars}
               title="Calendar"
+              error={errors.calendarId}
             />
+            {errors.calendarId && (
+              <ErrorMessage>{errors.calendarId}</ErrorMessage>
+            )}
           </ElementWrap>
           <ElementWrap>
             <Icon src={description} />
-            <TextArea
-              title="Description"
-              children={"Enter description"}
-            ></TextArea>
+            <TextArea title="Description" children={"Enter description"} />
           </ElementWrap>
         </ModalBody>
         <ModalFooter>

@@ -25,6 +25,7 @@ export const DropDownHeader = styled("div")`
   border-bottom: 1px solid #323749;
   padding-bottom: 5px;
   padding-top: 8px;
+  cursor: pointer;
 `;
 
 export const DropDownListContainer = styled("div")`

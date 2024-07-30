@@ -56,8 +56,9 @@ const ListItem = styled.li`
   align-items: center;
   padding: 5px 10px;
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 8px;
   color: black;
+  height: 40px;
   &:hover {
     background-color:#F6F7F8;
     border-radius: 8px;

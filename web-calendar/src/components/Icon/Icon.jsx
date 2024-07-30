@@ -4,8 +4,8 @@ import Icon from './style';
 
 
 
-const CustomIcon = ({ src }) => {
-  return <Icon src={src}/>;
+const CustomIcon = ({ src, style }) => {
+  return <Icon src={src} style={style}/>;
 };
 
 export default CustomIcon;

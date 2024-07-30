@@ -27,6 +27,7 @@ export const DayViewHeader = styled.div`
 export const TodayDate = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   background-color: #dff5e2;
   width: 100%;

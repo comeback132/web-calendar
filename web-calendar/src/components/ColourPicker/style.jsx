@@ -60,6 +60,12 @@ export const LabelWrap = styled.label`
   &:active {
     outline: 1px solid #323749;
   }
+  &:hover {
+    outline: 1px solid #dedfe5;
+  }
+  ${props => props.checked && css`
+    outline: 1px solid #323749;
+  `}
 `;
 
 export const colors = [

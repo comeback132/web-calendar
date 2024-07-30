@@ -48,7 +48,7 @@ const CustomInput = ({
           )}
         </ToggleButton>
       )}
-      {error && <ErrorMessage>Error message</ErrorMessage>}
+      {error && <ErrorMessage>is required</ErrorMessage>}
     </InputWrapper>
   );
 };

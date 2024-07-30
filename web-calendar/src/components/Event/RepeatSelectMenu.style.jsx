@@ -4,6 +4,8 @@ export const DropDownContainer = styled("div")`
   margin-left: 40px;
   position: relative;
   top:-5px;
+  cursor: pointer;
+  z-index: 3;
 `;
 
 export const Title = styled("h4")`
