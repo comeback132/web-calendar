@@ -108,7 +108,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
       <Modal>
         <ModalHeader>
           <ModalTitle>Create event</ModalTitle>
-          <CustomButton icon="close" iconOnly onClick={onClose} />
+          <CustomButton icon="close" $iconOnly onClick={onClose} style={{ background: "transparent", width: "auto"}} />
         </ModalHeader>
         <ModalBody>
           <ElementWrap>

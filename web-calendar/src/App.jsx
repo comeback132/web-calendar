@@ -17,53 +17,50 @@ import CreateEventModal from './components/Event/CreateEventModal';
 const App = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
-  const [showCreateEventModal,setShowCreateEventModal]=useState(false);
+  const [showCreateEventModal, setShowCreateEventModal] = useState(false);
 
   const handleDateChange = (date) => {
     dispatch(setSelectedDate(date));
   };
 
-  const handleCreateEvent=(title,color)=>{
-    const event={
-      id:Date.now().toString(),
+  const handleCreateEvent = (title, color) => {
+    const event = {
+      id: Date.now().toString(),
       title,
-      date:selectedDate,
+      date: selectedDate,
       color,
-    }
-    dispatch(addEvent({calendarId:'default',event}));
+    };
+    dispatch(addEvent({ calendarId: 'default', event }));
     setShowCreateEventModal(false);
-  }
+  };
 
   return (
-      <Router>
-        <Header />
-        <div className='app'>
-          <div className='leftwrap'>
-            <CustomButton icon='plus' onClick={() => setShowCreateEventModal(true)} primary withIcon>
-             
-              Create
-            </CustomButton>
-            <CalendarList/>
-            <CustomDatePicker selectedDate={selectedDate} onDateChange={handleDateChange} />
-          </div>
-          <div className="calendar-views">
-            <Routes>
-              <Route path="/" element={<DayView />} />
-              <Route path="/day" element={<DayView />} />
-              <Route path="/week" element={<WeekView />} />
-            </Routes>
-          </div>
+    <Router>
+      <Header />
+      <div className='app'>
+        <div className='leftwrap'>
+          <CustomButton icon='plus' onClick={() => setShowCreateEventModal(true)} $primary={true} $withIcon={true}>
+            Create
+          </CustomButton>
+          <CalendarList />
+          <CustomDatePicker selectedDate={selectedDate} onDateChange={handleDateChange} />
         </div>
-        {showCreateEventModal&&(
-          <CreateEventModal
-            onCreate={handleCreateEvent}
-            onClose={()=>setShowCreateEventModal(false)}
-          />
-        )}
-      </Router>
+        <div className="calendar-views">
+          <Routes>
+            <Route path="/" element={<DayView />} />
+            <Route path="/day" element={<DayView />} />
+            <Route path="/week" element={<WeekView />} />
+          </Routes>
+        </div>
+      </div>
+      {showCreateEventModal && (
+        <CreateEventModal
+          onCreate={handleCreateEvent}
+          onClose={() => setShowCreateEventModal(false)}
+        />
+      )}
+    </Router>
   );
 };
 
 export default App;
-
-

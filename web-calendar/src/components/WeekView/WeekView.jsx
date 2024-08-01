@@ -51,7 +51,7 @@ const WeekView = () => {
       <WeekHeader>
         {dates.map((date, index) => (
           <DayHeader key={index}>
-            <DayName isToday={isToday(date)}>
+            <DayName $istoday={isToday(date)}>
               <DateTitle>{formatDate(date)}</DateTitle>
               <DayTitle>{days[index]}</DayTitle>
             </DayName>

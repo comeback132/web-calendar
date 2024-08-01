@@ -38,7 +38,7 @@ export const DayColumn = styled.div`
 `;
 
 export const DayHeader = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -59,7 +59,7 @@ export const DayName = styled.div`
   text-align: center;
   padding: 10px;
   margin: 5px;
-  background-color: ${(props) => (props.isToday ? "#DFF5E2" : "transparent")};
+  background-color: ${(props) => (props.$istoday ? "#DFF5E2" : "transparent")};
   border-radius: 8px;
   height: 60px;
 `;
@@ -81,6 +81,7 @@ export const DateTitle = styled.div`
   letter-spacing: -0.30000001192092896px;
   text-align: center;
 `;
+
 export const AllDayEventWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,8 +125,8 @@ export const EventItem = styled.div`
 `;
 
 export const DayViewEvent = styled.div`
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
   position: absolute;
   width: 90%;
   left: 5%;

@@ -28,7 +28,7 @@ const CalendarList = () => {
       name,
       color,
       events: [],
-      selected: true, 
+      selected: true,
     };
     dispatch(addCalendar(newCalendar));
     setShowCreateModal(false);
@@ -54,11 +54,11 @@ const CalendarList = () => {
       <Styled.Header>
         <Styled.Title>My calendars</Styled.Title>
         <CustomButton
+          style={{ backgroundColor: "transparent", width: "auto" }}
           icon="add"
-          iconOnly
+          $iconOnly={true}
           onClick={() => setShowCreateModal(true)}
-        >
-        </CustomButton>
+        ></CustomButton>
       </Styled.Header>
       <Styled.List>
         {calendars.map((calendar) => (
@@ -79,8 +79,9 @@ const CalendarList = () => {
             {hoveredCalendarId === calendar.id && (
               <Styled.CalendarControls>
                 <CustomButton
+                  style={{ backgroundColor: "transparent", width: "auto" }}
                   icon="edit"
-                  iconOnly
+                  $iconOnly={true}
                   onClick={() => {
                     setSelectedCalendar(calendar);
                     setShowEditModal(true);
@@ -88,14 +89,14 @@ const CalendarList = () => {
                 ></CustomButton>
                 {calendar.name !== "Default Calendar" && (
                   <CustomButton
+                    style={{ backgroundColor: "transparent", width: "auto" }}
                     icon="delete"
-                    iconOnly
+                    $iconOnly={true}
                     onClick={() => {
                       setSelectedCalendar(calendar);
                       setShowDeleteModal(true);
                     }}
-                  >
-                  </CustomButton>
+                  ></CustomButton>
                 )}
               </Styled.CalendarControls>
             )}

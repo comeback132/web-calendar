@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import { setSelectedDate } from "@/features/calendar/calendarSlice";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -26,34 +25,36 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [chooseDate, setChooseDate] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(selectedDate));
+
+  useEffect(() => {
+    // Sync local date state with selectedDate from Redux store
+    setDate(new Date(selectedDate));
+  }, [selectedDate]);
 
   const handlePrevDay = () => {
-    dispatch(
-      setSelectedDate(
-        new Date(selectedDate.setDate(selectedDate.getDate() - 1))
-      )
-    );
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() - 1);
+    dispatch(setSelectedDate(newDate.toString()));
   };
 
   const handleNextDay = () => {
-    dispatch(
-      setSelectedDate(
-        new Date(selectedDate.setDate(selectedDate.getDate() + 1))
-      )
-    );
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() + 1);
+    dispatch(setSelectedDate(newDate.toString()));
   };
 
   const handleToday = () => {
-    dispatch(setSelectedDate(new Date()));
+    dispatch(setSelectedDate(new Date().toString()));
   };
 
   const handleViewChange = (view) => {
     navigate(view.toLowerCase());
   };
-  const handleDateChange = (date) => {
-    setDate(date);
-    dispatch(setSelectedDate(date.toString()));
+
+  const handleDateChange = (newDate) => {
+    setChooseDate(false);
+    dispatch(setSelectedDate(newDate.toString()));
   };
 
   return (
@@ -65,22 +66,19 @@ const Header = () => {
         </Brand>
         <Controls>
           <CustomButton onClick={handleToday}>Today</CustomButton>
-          <CustomButton secondary withIcon onClick={handlePrevDay}>
+          <CustomButton $secondary={true} $withIcon={true} onClick={handlePrevDay}>
             <img src={left} alt="left" />
           </CustomButton>
-          <CustomButton secondary withIcon onClick={handleNextDay}>
+          <CustomButton $secondary={true} $withIcon={true} onClick={handleNextDay}>
             <img src={right} alt="right" />
           </CustomButton>
           <DateDisplay onClick={() => setChooseDate(!chooseDate)}>
-            {format(selectedDate, "MMMM dd, yyyy")}
+            {format(new Date(selectedDate), "MMMM dd, yyyy")}
             {chooseDate && (
-              <DatePickerWrapper style={{ position: "relative",right:'100px' }}>
+              <DatePickerWrapper style={{ position: "relative", right: '100px' }}>
                 <DatePicker
-                  selectedDate={selectedDate}
-                  onDateChange={(date) => {
-                    setChooseDate(false);
-                    handleDateChange(date);
-                  }}
+                  selectedDate={new Date(selectedDate)}
+                  onDateChange={handleDateChange}
                 />
               </DatePickerWrapper>
             )}
@@ -88,11 +86,10 @@ const Header = () => {
         </Controls>
       </BrandControlsWrap>
       <Controls>
-        <CustomDropdown onOptionClicked={handleViewChange} />{" "}
-        {/* Pass the callback */}
+        <CustomDropdown onOptionClicked={handleViewChange} />
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           Username
-          <CustomButton secondary>U</CustomButton>
+          <CustomButton $secondary={true}>U</CustomButton>
         </div>
       </Controls>
     </HeaderContainer>

@@ -6,7 +6,7 @@ const Button = styled.button`
   color: #ffffff;
   background: #00ae1c;
   font-size: 15px;
-  padding: 12px, 10px, 12px, 10px;
+  padding: 12px 10px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -14,60 +14,67 @@ const Button = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
   img {
     margin: 0;
   }
+
   p {
     height: 16px;
   }
 
   ${(props) =>
-    props.primary &&
+    props.$primary &&
     css`
-      height:36px;
-      width:240px;
-      background: #00AE1C;
-      box-shadow: 0px 1px 2px 0px #1018280D;
-      margin:20px; 
-      &:hover{
-        outline: 1px solid #5CE171;
-        box-shadow: 0px 2px 2px 0px #5CE17140;
+      height: 36px;
+      width: 240px;
+      background: #00ae1c;
+      box-shadow: 0px 1px 2px 0px #1018280d;
+      margin: 20px;
+
+      &:hover {
+        outline: 1px solid #5ce171;
+        box-shadow: 0px 2px 2px 0px #5ce17140;
       }
-      &:active{
-        background: #0CD52B;
-        border: 1px solid #5CE171
-        box-shadow: 0px 2px 2px 0px #5CE17140;
+
+      &:active {
+        background: #0cd52b;
+        border: 1px solid #5ce171;
+        box-shadow: 0px 2px 2px 0px #5ce17140;
       }
     `}
 
   ${(props) =>
-    props.secondary &&
+    props.$secondary &&
     css`
-      background:transparent;
-      border:1px solid #DEDFE5;
-      height:36px;
-      width:36px;
-      color:#323749;
-      box-shadow: 0px 1px 2px 0px #1018280D;
-      &:hover{
-        background-color:#EFEFEF;
+      background: transparent;
+      border: 1px solid #dedfe5;
+      height: 36px;
+      width: 36px;
+      color: #323749;
+      box-shadow: 0px 1px 2px 0px #1018280d;
+
+      &:hover {
+        background-color: #efefef;
         box-shadow: 0px 1px 2px 0px #45454540;
       }
-      &:active{
-        background: #E0E0E0;
-        border: 1px solid #DEDFE5
+
+      &:active {
+        background: #e0e0e0;
+        border: 1px solid #dedfe5;
         box-shadow: 0px 1px 2px 0px #45454540;
       }
     `}
 
-   ${(props) =>
-    props.withIcon &&
+  ${(props) =>
+    props.$withIcon &&
     css`
       display: flex;
       align-items: center;
       justify-content: center;
     `}
-    ${(props) =>
+
+  ${(props) =>
     props.iconOnly &&
     css`
       background-color: transparent;
@@ -78,8 +85,8 @@ const Button = styled.button`
       align-items: center;
       justify-content: center;
     `}
-  
-    ${(props) =>
+
+  ${(props) =>
     props.disabled &&
     css`
       filter: brightness(50%);
@@ -88,5 +95,6 @@ const Button = styled.button`
 `;
 
 export default Button;
+
 
 //file

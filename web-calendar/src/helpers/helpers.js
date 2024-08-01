@@ -15,9 +15,7 @@ const getEventStyle = (event) => {
       event.startTime
     );
     const { hours: endHours, minutes: endMinutes } = parseTime(event.endTime);
-    console.log(event.endTime);
     const startInMinutes = startMinutes;
-    console.log(endHours);
     const startTimeMinHours = startHours * 60 + startMinutes;
     const endInMinutes = endHours * 60 + endMinutes;
     const durationInMinutes = endInMinutes - startTimeMinHours;

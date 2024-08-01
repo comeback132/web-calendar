@@ -14,14 +14,15 @@ const iconMap = {
   plus: plusIcon,
 };
 
-const CustomButton = ({ children, icon, iconOnly, withIcon, ...props }) => {
+const CustomButton = ({ children, icon, iconOnly, ...props }) => {
   return (
-    <Button {...props} iconOnly={iconOnly} withicon={!!icon}>
+    <Button {...props} iconOnly={iconOnly} $withIcon={!!icon}>
       {icon && <img src={iconMap[icon]} />}
-      <p>{!iconOnly && children}</p>
+      {!iconOnly && <p>{children}</p>}
     </Button>
   );
 };
 
 export default CustomButton;
+
 
