@@ -28,10 +28,9 @@ export const ColourPickerWrap = styled.div`
   flex-direction: column;
   margin: 0 auto;
   padding: 0px;
-  width: 450px;
 `;
 export const InputWrap = styled.div`
-  width: 230px;
+  width: 260px;
   height: 70px;
   border-radius: 8px;
   border: 1px solid #dedfe5;
@@ -58,12 +57,15 @@ export const LabelWrap = styled.label`
   border-radius: 4px;
   cursor: pointer;
   &:active {
+    outline-offset: 2px;
     outline: 1px solid #323749;
   }
   &:hover {
+  outline-offset: 2px;
     outline: 1px solid #dedfe5;
   }
   ${props => props.checked && css`
+    outline-offset: 2px;
     outline: 1px solid #323749;
   `}
 `;

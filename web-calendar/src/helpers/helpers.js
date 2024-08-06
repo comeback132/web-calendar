@@ -2,7 +2,7 @@ const parseTime = (time) => {
     if (!time) return { hours: 0, minutes: 0 }; 
     const [timePart, period] = time.split(" ");
     let [hours, minutes] = timePart.split(":").map(Number);
-    if (period.toLowerCase() === "pm" && hours !== 12) {
+    if (period.toLowerCase() === "pm" ) {
       hours += 12;
     } else if (period.toLowerCase() === "am" && hours === 12) {
       hours = 0;

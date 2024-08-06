@@ -20,15 +20,50 @@ import {
   EventTime,
   EventTitle,
 } from "@/components/DayView/style";
-import {parseTime, getEventStyle, getStartOfWeek, getEndOfWeek, formatDate, isToday} from "../../helpers/helpers"
+import { parseTime, getEventStyle, getStartOfWeek, getEndOfWeek, formatDate, isToday } from "../../helpers/helpers";
+import { timeOptions } from "../../constants/constants";
 
+// Function to calculate overlapping events
+const calculateOverlappingEvents = (events) => {
+  const sortedEvents = events.sort((a, b) => {
+    const aStart = parseTime(a.startTime).hours * 60 + parseTime(a.startTime).minutes;
+    const bStart = parseTime(b.startTime).hours * 60 + parseTime(b.startTime).minutes;
+    return aStart - bStart;
+  });
+
+  const overlappingGroups = [];
+  let currentGroup = [];
+
+  sortedEvents.forEach((event, index) => {
+    if (currentGroup.length === 0) {
+      currentGroup.push(event);
+    } else {
+      const lastEventInGroup = currentGroup[currentGroup.length - 1];
+      const lastEventEnd = parseTime(lastEventInGroup.endTime).hours * 60 + parseTime(lastEventInGroup.endTime).minutes;
+      const eventStart = parseTime(event.startTime).hours * 60 + parseTime(event.startTime).minutes;
+
+      if (eventStart < lastEventEnd) {
+        currentGroup.push(event);
+      } else {
+        overlappingGroups.push(currentGroup);
+        currentGroup = [event];
+      }
+    }
+
+    if (index === sortedEvents.length - 1 && currentGroup.length > 0) {
+      overlappingGroups.push(currentGroup);
+    }
+  });
+
+  return overlappingGroups;
+};
 
 const WeekView = () => {
   const calendars = useSelector((state) => state.calendar.calendars);
   const selectedCalendars = calendars.filter((calendar) => calendar.selected);
   const allEvents = selectedCalendars.reduce(
-     (acc, calendar) => acc.concat(calendar.events),
-     []
+    (acc, calendar) => acc.concat(calendar.events),
+    []
   );
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
   const startOfWeek = getStartOfWeek(new Date(selectedDate));
@@ -69,39 +104,48 @@ const WeekView = () => {
       </WeekHeader>
       <WeekBody>
         <div className="hours">
-          {Array.from({ length: 24 }).map((_, hour) => (
-            <HourLabel key={hour}>{`${hour}:00`}</HourLabel>
+          {timeOptions.map((hour) => (
+            <HourLabel key={hour}>{hour}</HourLabel>
           ))}
         </div>
         {dates.map((date, index) => (
           <DayColumn key={index}>
-            {Array.from({ length: 24 }).map((_, hour) => (
+            {timeOptions.map((hour) => (
               <HourSlot key={hour}>
-                {weekEvents
+                {calculateOverlappingEvents(weekEvents
                   .filter(
                     (event) =>
-                      (new Date(event.date).toDateString() ===
-                        date.toDateString() &&
+                      (new Date(event.date).toDateString() === date.toDateString() &&
                         !event.allDay)
-                  )
-                  .map((event) => {
-                    const { hours: startHours } = parseTime(event.startTime);
-                    const currentHour = hour;
-                    if (currentHour === startHours) {
-                      return (
-                        <DayViewEvent
-                          color={event.color}
-                          key={event.id}
-                          style={getEventStyle(event)}
-                        >
-                          <EventTitle>{event.title}</EventTitle>
-                          <EventTime>
-                            {event.startTime} - {event.endTime}
-                          </EventTime>
-                        </DayViewEvent>
-                      );
-                    }
-                    return null;
+                  )).map((group) => {
+                    return group.map((event, idx) => {
+                      const { hours: startHours } = parseTime(event.startTime);
+                      const currentHour = parseTime(hour).hours;
+                      if (currentHour === startHours) {
+                        const groupSize = group.length;
+                        const width = 100 / groupSize;
+                        const left = width * idx;
+
+                        return (
+                          <DayViewEvent
+                            color={event.color}
+                            key={event.id}
+                            style={{
+                              ...getEventStyle(event),
+                              width: `${width}%`,
+                              left: `${left}%`,
+                              boxSizing: 'border-box',  // Ensure padding and border are included in width calculation
+                            }}
+                          >
+                            <EventTitle>{event.title}</EventTitle>
+                            <EventTime>
+                              {event.startTime} - {event.endTime}
+                            </EventTime>
+                          </DayViewEvent>
+                        );
+                      }
+                      return null;
+                    });
                   })}
               </HourSlot>
             ))}

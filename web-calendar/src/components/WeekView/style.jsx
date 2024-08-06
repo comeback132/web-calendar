@@ -13,7 +13,7 @@ export const WeekViewWrapper = styled.div`
 
 export const WeekHeader = styled.div`
   display: flex;
-  margin-left: 55px;
+  margin-left: 83px;
   min-height: 150px;
   z-index: 1;
   position: sticky;

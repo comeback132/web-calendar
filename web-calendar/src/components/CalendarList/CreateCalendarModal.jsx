@@ -51,7 +51,7 @@ const CreateCalendarModal = ({ onCreate, onClose }) => {
             />
             {error && <ErrorMessage></ErrorMessage>}
           </ElementWrap>
-          <ElementWrap>
+          <ElementWrap style={{marginTop:'10px'}}>
             <Icon src={colorPicker} />
             <ColourPicker title="Colour" value={color} onChange={setColor} />
           </ElementWrap>
