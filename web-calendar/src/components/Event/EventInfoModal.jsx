@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteEvent } from '@/features/calendar/calendarSlice';
-import EditEventModal from "./EditEventModal";
-import DeleteEventModal from "./DeleteEventModal";
+import EditEventModal from "@/components/Event/EditEventModal";
+import DeleteEventModal from "@/components/Event/DeleteEventModal";
 import {
   ModalOverlay,
   Modal,
@@ -16,7 +15,7 @@ import {
   EventButton
 } from "./EventInfoModal.style";
 
-const EventInfoModal = ({ event, onClose }) => {
+const EventInfoModal = ({ event, onClose, calendarId }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -52,9 +51,10 @@ const EventInfoModal = ({ event, onClose }) => {
         </Modal>
       </ModalOverlay>
       {showEditModal && <EditEventModal event={event} onClose={() => setShowEditModal(false)} />}
-      {showDeleteModal && <DeleteEventModal eventId={event.id} onClose={() => setShowDeleteModal(false)} />}
+      {showDeleteModal && <DeleteEventModal calendarId={calendarId} eventId={event.id} onClose={() => setShowDeleteModal(false)} />}
     </>
   );
 };
 
 export default EventInfoModal;
+

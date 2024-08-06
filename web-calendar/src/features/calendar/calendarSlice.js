@@ -10,7 +10,7 @@ const initialState = {
       selected: true,
     },
   ],
-  selectedDate: new Date(),
+  selectedDate: new Date().toISOString(),  // Store as ISO string
 };
 
 const calendarSlice = createSlice({
@@ -25,10 +25,12 @@ const calendarSlice = createSlice({
         id: Date.now().toString(),
         title,
         color,
-        date: date.toString(),
+        date: date.toString(),  // Convert date to string
         startTime,
         endTime,
         allDay,
+        calendarId,
+        repeatOption,
       }];
 
       if (repeatOption !== 'Does not repeat') {
@@ -46,7 +48,7 @@ const calendarSlice = createSlice({
       if (event) {
         event.title = title;
         event.color = color;
-        event.date = date;
+        event.date = date.toString();  // Convert date to string
         event.startTime = startTime;
         event.endTime = endTime;
         event.allDay = allDay;
@@ -73,7 +75,7 @@ const calendarSlice = createSlice({
       state.calendars = state.calendars.filter(cal => cal.id !== action.payload);
     },
     setSelectedDate: (state, action) => {
-      state.selectedDate = action.payload;
+      state.selectedDate = action.payload.toISOString();  // Convert date to string
     },
     toggleCalendarSelection: (state, action) => {
       const calendar = state.calendars.find(cal => cal.id === action.payload);
@@ -105,7 +107,7 @@ const generateRepeatedEvents = (event) => {
   const addEvent = (date) => ({
     ...rest,
     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-    date: date.toString(),
+    date: date.toISOString(),  // Convert date to ISO string
   });
 
   switch (repeatOption) {

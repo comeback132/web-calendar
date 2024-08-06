@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import EventInfoModal from "../Event/EventInfoModal";
+import { parseTime, getEventStyle } from "../../helpers/helpers";
+import {timeOptions} from "../../constants/constants";
 import {
   DayViewWrapper,
   DayViewHeader,
@@ -9,16 +11,12 @@ import {
   HourLabel,
   HourEvents,
   DayViewEvent,
-  EventTime,
   EventTitle,
+  EventTime,
   AllDayEventWrap,
   AllDayEvent,
   TodayDate,
 } from "./style";
-import EventInfoModal from "../Event/EventInfoModal";
-import { timeOptions } from "../../constants/constants";
-import { parseTime } from "../../helpers/helpers";
-import { getEventStyle } from "../../helpers/helpers";
 
 // Function to calculate overlapping events
 const calculateOverlappingEvents = (events) => {
@@ -58,23 +56,20 @@ const calculateOverlappingEvents = (events) => {
 const DayView = () => {
   const calendars = useSelector((state) => state.calendar.calendars);
   const selectedCalendars = calendars.filter((calendar) => calendar.selected);
-  const allEvents = selectedCalendars.reduce(
-    (acc, calendar) => acc.concat(calendar.events),
-    []
-  );
+  const allEvents = selectedCalendars.reduce((acc, calendar) => acc.concat(calendar.events), []);
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
   const dayEvents = allEvents.filter(
-    (event) =>
-      new Date(event.date).toDateString() ===
-      new Date(selectedDate).toDateString()
+    (event) => new Date(event.date).toDateString() === new Date(selectedDate).toDateString()
   );
   const allDayEvents = dayEvents.filter((event) => event.allDay === true);
-  const overlappingEventGroups = calculateOverlappingEvents(dayEvents.filter(event => !event.allDay));
+  const overlappingEventGroups = calculateOverlappingEvents(dayEvents.filter((event) => !event.allDay));
   const [showEventInfoModal, setShowEventInfoModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-
-  const handleEventClick = (event) => {
+  const [selectedCalendarEvent, setSelectedCalendarEvent] = useState(null);
+  console.log(selectedEvent);
+  const handleEventClick = (event, calendarId) => {
     setSelectedEvent(event);
+
     setShowEventInfoModal(true);
   };
 
@@ -102,8 +97,8 @@ const DayView = () => {
           <DayViewHour key={hour}>
             <HourLabel>{hour}</HourLabel>
             <HourEvents>
-              {overlappingEventGroups.map((group) => {
-                return group.map((event, index) => {
+              {overlappingEventGroups.map((group) =>
+                group.map((event, index) => {
                   const { hours: startHours } = parseTime(event.startTime);
                   const currentHour = parseTime(hour).hours;
                   if (currentHour === startHours) {
@@ -130,14 +125,20 @@ const DayView = () => {
                     );
                   }
                   return null;
-                });
-              })}
+                })
+              )}
             </HourEvents>
           </DayViewHour>
         ))}
       </DayViewBody>
       {showEventInfoModal && (
-        <EventInfoModal event={selectedEvent} onClose={() => setShowEventInfoModal(false)} />
+        <EventInfoModal
+          event={selectedEvent}
+          calendarId={selectedCalendars.find(
+            (calendar) => calendar.id === selectedEvent.calendarId
+          ).id}
+          onClose={() => setShowEventInfoModal(false)}
+        />
       )}
     </DayViewWrapper>
   );

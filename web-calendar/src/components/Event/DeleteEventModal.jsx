@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteEvent } from '@/features/calendar/calendarSlice'
+import { deleteEvent } from '@/features/calendar/calendarSlice';
 import {
   ModalOverlay,
   Modal,
@@ -12,11 +12,12 @@ import {
   Button
 } from "./DeleteEventModal.style";
 
-const DeleteEventModal = ({ eventId, onClose }) => {
+const DeleteEventModal = ({ eventId, onClose, calendarId }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteEvent(eventId));
+    console.log(`Deleting event with ID: ${eventId} from calendar: ${calendarId}`);
+    dispatch(deleteEvent({ calendarId, eventId }));
     onClose();
   };
 
