@@ -40,11 +40,16 @@ const calendarSlice = createSlice({
         calendar.events.push(...events);
       }
     },
-    editCalendar: (state, action) => {
-      const { calendarId, updatedCalendar } = action.payload;
-      const calendarIndex = state.calendars.findIndex(cal => cal.id === calendarId);
-      if (calendarIndex >= 0) {
-        state.calendars[calendarIndex] = { ...state.calendars[calendarIndex], ...updatedCalendar };
+    editEvent: (state, action) => {
+      const { id, title, color, date, startTime, endTime, allDay } = action.payload;
+      const event = state.calendars.flatMap(cal => cal.events).find(ev => ev.id === id);
+      if (event) {
+        event.title = title;
+        event.color = color;
+        event.date = date;
+        event.startTime = startTime;
+        event.endTime = endTime;
+        event.allDay = allDay;
       }
     },
     deleteEvent: (state, action) => {

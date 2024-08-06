@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 import {
   DayViewWrapper,
   DayViewHeader,
@@ -14,6 +15,7 @@ import {
   AllDayEvent,
   TodayDate,
 } from "./style";
+import EventInfoModal from "../Event/EventInfoModal";
 import { timeOptions } from "../../constants/constants";
 import { parseTime } from "../../helpers/helpers";
 import { getEventStyle } from "../../helpers/helpers";
@@ -67,8 +69,14 @@ const DayView = () => {
       new Date(selectedDate).toDateString()
   );
   const allDayEvents = dayEvents.filter((event) => event.allDay === true);
-
   const overlappingEventGroups = calculateOverlappingEvents(dayEvents.filter(event => !event.allDay));
+  const [showEventInfoModal, setShowEventInfoModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setShowEventInfoModal(true);
+  };
 
   return (
     <DayViewWrapper>
@@ -107,6 +115,7 @@ const DayView = () => {
                       <DayViewEvent
                         color={event.color}
                         key={event.id}
+                        onClick={() => handleEventClick(event)}
                         style={{
                           ...getEventStyle(event),
                           width: `${width}%`,
@@ -127,6 +136,9 @@ const DayView = () => {
           </DayViewHour>
         ))}
       </DayViewBody>
+      {showEventInfoModal && (
+        <EventInfoModal event={selectedEvent} onClose={() => setShowEventInfoModal(false)} />
+      )}
     </DayViewWrapper>
   );
 };
