@@ -20,6 +20,7 @@ import {
   EventTime,
   EventTitle,
 } from "@/components/DayView/style";
+import EventInfoModal from "../Event/EventInfoModal"; // Import the EventInfoModal
 import {
   parseTime,
   getEventStyle,
@@ -30,7 +31,6 @@ import {
 } from "../../helpers/helpers";
 import { timeOptions } from "../../constants/constants";
 
-// Function to calculate overlapping events
 const calculateOverlappingEvents = (events) => {
   const sortedEvents = events.sort((a, b) => {
     const aStart = parseTime(a.startTime).hours * 60 + parseTime(a.startTime).minutes;
@@ -80,13 +80,19 @@ const WeekView = () => {
     return eventDate >= startOfWeek && eventDate <= endOfWeek;
   });
   const allDayEvents = weekEvents.filter((event) => event.allDay === true);
-
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const dates = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(startOfWeek);
     date.setDate(startOfWeek.getDate() + i);
     return date;
   });
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showEventInfoModal, setShowEventInfoModal] = useState(false); // State to control modal visibility
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setShowEventInfoModal(true);
+  };
 
   return (
     <WeekViewWrapper>
@@ -138,6 +144,7 @@ const WeekView = () => {
                         <DayViewEvent
                           color={event.color}
                           key={event.id}
+                          onClick={() => handleEventClick(event)}
                           style={{
                             ...getEventStyle(event),
                             width: `${width}%`,
@@ -160,6 +167,15 @@ const WeekView = () => {
           </DayColumn>
         ))}
       </WeekBody>
+      {showEventInfoModal && selectedEvent && ( // Render EventInfoModal conditionally
+        <EventInfoModal
+          event={selectedEvent}
+          calendarId={selectedCalendars.find(
+            (calendar) => calendar.id === selectedEvent.calendarId
+          ).id}
+          onClose={() => setShowEventInfoModal(false)}
+        />
+      )}
     </WeekViewWrapper>
   );
 };

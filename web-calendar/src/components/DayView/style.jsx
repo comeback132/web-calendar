@@ -85,6 +85,7 @@ export const HourEvents = styled.div`
   border-radius: 8px;
   display:flex;
   position:relative;
+  top:-30px;
 `;
 
 export const DayViewEvent = styled.div`

@@ -50,6 +50,7 @@ export const DatePickerWrapper = styled.div`
   .react-datepicker__navigation--previous {
     left: 170px;
     filter: brightness(0%);
+    z-index: 10;
   }
 
   .react-datepicker__navigation--next {

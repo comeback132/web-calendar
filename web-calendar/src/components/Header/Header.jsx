@@ -35,17 +35,17 @@ const Header = () => {
   const handlePrevDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() - 1);
-    dispatch(setSelectedDate(newDate.toString()));
+    dispatch(setSelectedDate(newDate.toISOString()));
   };
 
   const handleNextDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() + 1);
-    dispatch(setSelectedDate(newDate.toString()));
+    dispatch(setSelectedDate(newDate.toISOString()));
   };
 
   const handleToday = () => {
-    dispatch(setSelectedDate(new Date().toString()));
+    dispatch(setSelectedDate(new Date().toISOString()));
   };
 
   const handleViewChange = (view) => {
@@ -54,7 +54,7 @@ const Header = () => {
 
   const handleDateChange = (newDate) => {
     setChooseDate(false);
-    dispatch(setSelectedDate(newDate.toString()));
+    dispatch(setSelectedDate(newDate.toISOString()));
   };
 
   return (
@@ -75,7 +75,7 @@ const Header = () => {
           <DateDisplay onClick={() => setChooseDate(!chooseDate)}>
             {format(new Date(selectedDate), "MMMM dd, yyyy")}
             {chooseDate && (
-              <DatePickerWrapper style={{ position: "relative", right: '100px' }}>
+              <DatePickerWrapper style={{ position: "absolute", top: '50px',zIndex:'1000' }}>
                 <DatePicker
                   selectedDate={new Date(selectedDate)}
                   onDateChange={handleDateChange}
@@ -97,3 +97,4 @@ const Header = () => {
 };
 
 export default Header;
+

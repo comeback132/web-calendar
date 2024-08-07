@@ -25,7 +25,7 @@ const calendarSlice = createSlice({
         id: Date.now().toString(),
         title,
         color,
-        date: date.toString(),  // Convert date to string
+        date: new Date(date).toISOString(),  // Convert date to ISO string
         startTime,
         endTime,
         allDay,
@@ -48,7 +48,7 @@ const calendarSlice = createSlice({
       if (event) {
         event.title = title;
         event.color = color;
-        event.date = date.toString();  // Convert date to string
+        event.date = new Date(date).toISOString();  // Convert date to ISO string
         event.startTime = startTime;
         event.endTime = endTime;
         event.allDay = allDay;
@@ -75,7 +75,7 @@ const calendarSlice = createSlice({
       state.calendars = state.calendars.filter(cal => cal.id !== action.payload);
     },
     setSelectedDate: (state, action) => {
-      state.selectedDate = action.payload.toISOString();  // Convert date to string
+      state.selectedDate = action.payload;  // Store as ISO string
     },
     toggleCalendarSelection: (state, action) => {
       const calendar = state.calendars.find(cal => cal.id === action.payload);
