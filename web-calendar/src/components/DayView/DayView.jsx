@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import EventInfoModal from "../Event/EventInfoModal";
+import EventInfoModal from "@/components/Event/EventInfo/EventInfoModal";
 import { parseTime, getEventStyle } from "../../helpers/helpers";
 import {timeOptions} from "../../constants/constants";
 import {

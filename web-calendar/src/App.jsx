@@ -12,7 +12,7 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import plus from '@/assets/plus.png';
 import './App.css'
 import { addEvent } from './features/calendar/calendarSlice';
-import CreateEventModal from './components/Event/CreateEventModal';
+import CreateEventModal from '@/components/Event/CreateEvent/CreateEventModal';
 
 const App = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { format } from 'date-fns';
-import { editEvent } from "@/features/calendar/calendarSlice";
 import {
   ModalOverlay,
   Modal,
@@ -14,16 +14,17 @@ import {
   ElementWrap,
   RepeatWrap,
 } from "./CreateEventModal.style";
-import { ErrorMessage } from "../CustomInput/style";
+import { ErrorMessage } from "../../CustomInput/style";
 import { setSelectedDate } from "@/features/calendar/calendarSlice";
 import DatePicker from "@/components/CustomDatePicker/DatePicker";
 import SelectMenu from "@/components/SelectMenu/SelectMenu";
-import RepeatSelectMenu from "./RepeatSelectMenu";
-import CalendarSelectMenu from "@/components/Event/CalendarSelectMenu";
+import RepeatSelectMenu from "@/components/Event/RepeatSelectMenu/RepeatSelectMenu";
+import CalendarSelectMenu from "@/components/Event/CalendarSelectMenu/CalendarSelectMenu";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import Checkbox from "@/components/CheckBox/Checkbox";
 import TextArea from "@/components/TextArea/TextArea";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import { addEvent } from "@/features/calendar/calendarSlice";
 import Icon from "@/components/Icon/Icon";
 import titleIcon from "@/assets/titleIcon.png";
 import clock from "@/assets/clock.png";
@@ -33,24 +34,26 @@ import {
   timeOptions,
   repeatOptions,
   eventTimeOptions,
-} from "../../constants/constants";
+} from "@/constants/constants";
 
-const EditEventModal = ({ event, onClose }) => {
-  const [title, setTitle] = useState(event.title);
-  const [color, setColor] = useState(event.color);
-  const [date, setDate] = useState(new Date(event.date));
-  const [startTime, setStartTime] = useState(event.startTime);
-  const [endTime, setEndTime] = useState(event.endTime);
-  const [allDay, setAllDay] = useState(event.allDay);
-  const [calendarId, setCalendarId] = useState(event.calendarId);
-  const [repeatOption, setRepeatOption] = useState(event.repeatOption);
-  const [descriptionText, setDescriptionText] = useState(event.description || "");
+const CreateEventModal = ({ onCreate, onClose }) => {
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("#00AE1C");
   const [chooseDate, setChooseDate] = useState(false);
+  
+  const [startTime, setStartTime] = useState("12:30 pm");
+  const [endTime, setEndTime] = useState("13:30 pm");
+  const [allDay, setAllDay] = useState(false);
+  const [calendarId, setCalendarId] = useState("default");
+  const [selectedCalendar, setSelectedCalendar] = useState(null);
+  const [repeatOption, setRepeatOption] = useState("Does not repeat");
+
   const [errors, setErrors] = useState({});
 
-  const dispatch = useDispatch();
   const calendars = useSelector((state) => state.calendar.calendars);
+  const dispatch = useDispatch();
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
+  const [date, setDate] = useState(new Date(selectedDate));
   const dateToFormat = new Date(selectedDate);
   const formattedDate = format(dateToFormat, 'eeee, MMMM d');
 
@@ -58,6 +61,11 @@ const EditEventModal = ({ event, onClose }) => {
     setDate(date);
     dispatch(setSelectedDate(date.toString()));
   };
+
+  // Update date state when selectedDate changes
+  useEffect(() => {
+    setDate(new Date(selectedDate));
+  }, [selectedDate]);
 
   const validateFields = () => {
     const newErrors = {};
@@ -84,20 +92,21 @@ const EditEventModal = ({ event, onClose }) => {
       return;
     }
 
-    const updatedEvent = {
-      ...event,
+    const event = {
       title,
       date,
       color,
-      startTime,
-      endTime,
       allDay,
       calendarId,
       repeatOption,
-      description: descriptionText,
     };
 
-    dispatch(editEvent(updatedEvent));
+    if (!allDay) {
+      event.startTime = startTime;
+      event.endTime = endTime;
+    }
+
+    dispatch(addEvent(event));
     onClose();
   };
 
@@ -105,7 +114,7 @@ const EditEventModal = ({ event, onClose }) => {
     <ModalOverlay>
       <Modal>
         <ModalHeader>
-          <ModalTitle>Edit Event</ModalTitle>
+          <ModalTitle>Create event</ModalTitle>
           <CustomButton icon="close" $iconOnly onClick={onClose} style={{ background: "transparent", width: "auto"}} />
         </ModalHeader>
         <ModalBody>
@@ -153,7 +162,6 @@ const EditEventModal = ({ event, onClose }) => {
                 <SelectMenu
                   title="Start Time"
                   options={eventTimeOptions}
-                  value={startTime}
                   onChange={setStartTime}
                   error={errors.time}
                 />
@@ -161,7 +169,6 @@ const EditEventModal = ({ event, onClose }) => {
                 <SelectMenu
                   title="End Time"
                   options={eventTimeOptions}
-                  value={endTime}
                   onChange={setEndTime}
                   error={errors.time}
                 />
@@ -178,20 +185,19 @@ const EditEventModal = ({ event, onClose }) => {
             />
             <RepeatSelectMenu
               options={repeatOptions}
-              value={repeatOption}
               onChange={(option) => setRepeatOption(option)}
             />
           </RepeatWrap>
           <ElementWrap>
             <Icon src={calendarIcon} />
             <CalendarSelectMenu
-              value={calendarId}
               onChange={(calendarId) => {
                 setCalendarId(calendarId);
                 const selectedCalendar = calendars.find(
                   (calendar) => calendar.id === calendarId
                 );
                 setColor(selectedCalendar.color);
+                setSelectedCalendar(selectedCalendar);
               }}
               options={calendars}
               title="Calendar"
@@ -203,12 +209,7 @@ const EditEventModal = ({ event, onClose }) => {
           </ElementWrap>
           <ElementWrap>
             <Icon src={description} />
-            <TextArea
-              title="Description"
-              placeholder="Enter description"
-              value={descriptionText}
-              onChange={(e) => setDescriptionText(e.target.value)}
-            />
+            <TextArea title="Description" children={"Enter description"} />
           </ElementWrap>
         </ModalBody>
         <ModalFooter>
@@ -219,5 +220,4 @@ const EditEventModal = ({ event, onClose }) => {
   );
 };
 
-export default EditEventModal;
-
+export default CreateEventModal;

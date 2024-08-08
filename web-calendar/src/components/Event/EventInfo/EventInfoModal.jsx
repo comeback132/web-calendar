@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import EditEventModal from "@/components/Event/EditEventModal";
-import CustomButton from "../CustomButton/CustomButton";
-import DeleteEventModal from "@/components/Event/DeleteEventModal";
+import EditEventModal from "@/components/Event/EditEvent/EditEventModal";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import DeleteEventModal from "@/components/Event/DeleteEvent/DeleteEventModal";
 import Icon from "@/components/Icon/Icon";
 import titleIcon from "@/assets/titleIcon.png";
 import clock from "@/assets/clock.png";
 import calendarIcon from "@/assets/calendarIcon.png";
 import description from "@/assets/pdescription.png";
-import { ElementWrap } from "./CreateEventModal.style";
-import CalendarCheckbox from "@/components/Event/CalendarCheckbox";
+import { ElementWrap } from "@/components/Event/CreateEvent/CreateEventModal.style";
+import CalendarCheckbox from "@/components/Event/CalendarCheckbox/CalendarCheckbox";
 import {
   ModalOverlay,
   Modal,
@@ -21,7 +21,7 @@ import {
   EventActions,
   EventButton
 } from "./EventInfoModal.style";
-import { ModalHeader } from "./CreateEventModal.style";
+import { ModalHeader } from "@/components/Event/CreateEvent/CreateEventModal.style";
 
 const EventInfoModal = ({ event, onClose, calendarId }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -38,6 +38,16 @@ const EventInfoModal = ({ event, onClose, calendarId }) => {
     setShowEditModal(true);
   };
 
+  const handleEditModalClose = () => {
+    setShowEditModal(false);
+    onClose();  // Close EventInfoModal after EditEventModal closes
+  };
+
+  const handleDeleteModalClose = () => {
+    setShowDeleteModal(false);
+    onClose();  // Close EventInfoModal after DeleteEventModal closes
+  };
+
   return (
     <>
       <ModalOverlay>
@@ -50,14 +60,19 @@ const EventInfoModal = ({ event, onClose, calendarId }) => {
                 icon="edit"
                 $iconOnly={true}
                 onClick={handleEdit}
-              ></CustomButton>
+              />
               <CustomButton
                 style={{ backgroundColor: "transparent", width: "auto" }}
                 icon="delete"
                 $iconOnly={true}
                 onClick={handleDelete}
-              ></CustomButton>
-              <CustomButton icon="close" $iconOnly onClick={onClose} style={{ background: "transparent", width: "auto"}} />
+              />
+              <CustomButton
+                icon="close"
+                $iconOnly
+                onClick={onClose}
+                style={{ background: "transparent", width: "auto"}}
+              />
             </EventActions>
           </ModalHeader>
           <ModalBody>
@@ -69,8 +84,8 @@ const EventInfoModal = ({ event, onClose, calendarId }) => {
           </ModalBody>
         </Modal>
       </ModalOverlay>
-      {showEditModal && <EditEventModal event={event} onClose={() => setShowEditModal(false)} />}
-      {showDeleteModal && <DeleteEventModal calendarId={calendarId} eventId={event.id} onClose={() => setShowDeleteModal(false)} />}
+      {showEditModal && <EditEventModal event={event} onClose={handleEditModalClose} />}
+      {showDeleteModal && <DeleteEventModal calendarId={calendarId} eventId={event.id} onClose={handleDeleteModalClose} />}
     </>
   );
 };

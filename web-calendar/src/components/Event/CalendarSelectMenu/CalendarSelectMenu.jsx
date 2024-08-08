@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styled from "./CalendarSelectMenu.style";
-import CalendarCheckbox from "@/components/Event/CalendarCheckbox";
+import CalendarCheckbox from "@/components/Event/CalendarCheckbox/CalendarCheckbox";
 import StyledList  from "@/components/CalendarList/CalendarList.style.jsx";
 
 const CalendarSelectMenu = ({ title, options, onChange }) => {

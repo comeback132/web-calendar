@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import CreateCalendarModal from "./CreateCalendarModal";
-import EditCalendarModal from "@/components/CalendarList/EditCalendarModel";
-import DeleteCalendarModal from "./DeleteCalendarModal";
+import CreateCalendarModal from "./CreateCalendar/CreateCalendarModal";
+import EditCalendarModal from "./EditCalendar/EditCalendarModel";
+import DeleteCalendarModal from "./DeleteCalendar/DeleteCalendarModal";
 import {
   addCalendar,
   deleteCalendar,
   editCalendar,
   toggleCalendarSelection,
-} from "../../features/calendar/calendarSlice";
-import Checkbox from "@/components/CalendarList/Checkbox";
+} from "@/features/calendar/calendarSlice";
+import Checkbox from "@/components/CalendarList/Checkbox/Checkbox";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import Styled from "./CalendarList.style";
 
@@ -22,6 +22,7 @@ const CalendarList = () => {
 
   const calendars = useSelector((state) => state.calendar.calendars);
   const dispatch = useDispatch();
+  const defaultCalendarname="Default Calendar";
 
   const handleCreateCalendar = (name, color) => {
     const newCalendar = {
@@ -88,7 +89,7 @@ const CalendarList = () => {
                     setShowEditModal(true);
                   }}
                 />
-                {calendar.name !== "Default Calendar" && (
+                {calendar.name !== defaultCalendarname && (
                   <CustomButton
                     style={{ backgroundColor: "transparent", width: "auto" }}
                     icon="delete"

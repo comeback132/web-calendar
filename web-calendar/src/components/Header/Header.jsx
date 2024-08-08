@@ -16,7 +16,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import left from "@/assets/arrow-left.png";
 import right from "@/assets/arrow-right.png";
 import logo from "@/assets/Logo.png";
-import { DatePickerWrapper } from "../Event/CreateEventModal.style";
+import { DatePickerWrapper } from "@/components/Event/CreateEvent/CreateEventModal.style";
 import DatePicker from "@/components/CustomDatePicker/DatePicker";
 
 const Header = () => {

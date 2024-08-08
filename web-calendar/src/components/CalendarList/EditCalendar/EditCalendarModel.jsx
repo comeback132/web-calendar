@@ -8,12 +8,12 @@ import {
   ModalFooter,
   SaveButton,
   ElementWrap,
-} from "./CreateCalendarModal.style";
-import ColourPicker from "../ColourPicker/ColourPicker";
-import CustomInput from "../CustomInput/CustomInput";
-import CustomButton from "../CustomButton/CustomButton";
-import { ErrorMessage } from "../CustomInput/style";
-import Icon from "../Icon/Icon";
+} from "@/components/CalendarList/CreateCalendar/CreateCalendarModal.style";
+import ColourPicker from "@/components/ColourPicker/ColourPicker";
+import CustomInput from "@/components/CustomInput/CustomInput";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import { ErrorMessage } from "@/components//CustomInput/style";
+import Icon from "@/components/Icon/Icon";
 import titleIcon from "@/assets/titleIcon.png";
 import colorPicker from "@/assets/colorPickerIcon.png";
 

@@ -9,11 +9,11 @@ import {
   ElementWrap,
   SaveButton,
 } from "./CreateCalendarModal.style";
-import { ErrorMessage } from "../CustomInput/style";
-import ColourPicker from "../ColourPicker/ColourPicker";
-import CustomInput from "../CustomInput/CustomInput";
-import Icon from "../Icon/Icon";
-import CustomButton from "../CustomButton/CustomButton";
+import { ErrorMessage } from "../../CustomInput/style";
+import ColourPicker from "../../ColourPicker/ColourPicker";
+import CustomInput from "../../CustomInput/CustomInput";
+import Icon from "../../Icon/Icon";
+import CustomButton from "../../CustomButton/CustomButton";
 import titleIcon from "@/assets/titleIcon.png";
 import colorPicker from "@/assets/colorPickerIcon.png";
 

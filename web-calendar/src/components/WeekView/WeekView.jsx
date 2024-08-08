@@ -20,7 +20,7 @@ import {
   EventTime,
   EventTitle,
 } from "@/components/DayView/style";
-import EventInfoModal from "../Event/EventInfoModal"; // Import the EventInfoModal
+import EventInfoModal from "@/components/Event/EventInfo/EventInfoModal";
 import {
   parseTime,
   getEventStyle,
