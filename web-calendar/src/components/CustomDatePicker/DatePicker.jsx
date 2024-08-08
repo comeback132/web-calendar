@@ -9,18 +9,22 @@ const CustomDatePicker = ({ selectedDate, onDateChange }) => {
   const handleDateChange = (date) => {
     setStartDate(date);
     onDateChange(date);
+};
+
+  const handleClick = (e) => {
+    e.stopPropagation();  // Prevent the click event from propagating
   };
 
   return (
-    <DatePickerWrapper>
-      <DatePicker
-        fixedHeight={false}
-        selected={startDate}
-        onChange={handleDateChange}
-        inline
-        formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 1)}
-      />
-    </DatePickerWrapper>
+      <DatePickerWrapper onClick={handleClick}>
+          <DatePicker
+              fixedHeight={false}
+              selected={startDate}
+              onChange={handleDateChange}
+              inline
+              formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 1)}
+          />
+      </DatePickerWrapper>
   );
 };
 

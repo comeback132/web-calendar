@@ -26,6 +26,7 @@ export const DatePickerWrapper = styled.div`
     position: absolute;
     background: none;
     cursor: pointer;
+    z-index: 1001;
   }
 
   .react-datepicker__navigation {
@@ -39,7 +40,7 @@ export const DatePickerWrapper = styled.div`
     top: 10px;
     padding: 0;
     border: none;
-    z-index: 9;
+    z-index: 1000 !important;
     height: 32px;
     width: 32px;
     text-indent: -999em;
@@ -50,13 +51,11 @@ export const DatePickerWrapper = styled.div`
   .react-datepicker__navigation--previous {
     left: 170px;
     filter: brightness(0%);
-    z-index: 10;
   }
 
   .react-datepicker__navigation--next {
     right: -8px;
     filter: brightness(0%);
-    z-index: 10;
   }
 
   .react-datepicker__header {

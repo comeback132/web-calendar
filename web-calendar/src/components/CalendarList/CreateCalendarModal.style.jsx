@@ -10,7 +10,7 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1002;
 `;
 
 const Modal = styled.div`
@@ -71,7 +71,7 @@ const ElementWrap = styled.div`
   display: flex;
   align-items: center;
   img{
-  padding-right: 10px;}
+  padding-right: 10px;
 `;
 
 export {ModalOverlay, Modal, ModalHeader, ModalTitle, CloseButton, ModalBody, Label, Input, ModalFooter, SaveButton, ElementWrap}

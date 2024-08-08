@@ -59,7 +59,7 @@ const CalendarList = () => {
           icon="add"
           $iconOnly={true}
           onClick={() => setShowCreateModal(true)}
-        ></CustomButton>
+        />
       </Styled.Header>
       <Styled.List>
         {calendars.map((calendar) => (
@@ -87,7 +87,7 @@ const CalendarList = () => {
                     setSelectedCalendar(calendar);
                     setShowEditModal(true);
                   }}
-                ></CustomButton>
+                />
                 {calendar.name !== "Default Calendar" && (
                   <CustomButton
                     style={{ backgroundColor: "transparent", width: "auto" }}
@@ -97,7 +97,7 @@ const CalendarList = () => {
                       setSelectedCalendar(calendar);
                       setShowDeleteModal(true);
                     }}
-                  ></CustomButton>
+                  />
                 )}
               </Styled.CalendarControls>
             )}

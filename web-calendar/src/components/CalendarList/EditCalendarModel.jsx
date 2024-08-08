@@ -71,12 +71,12 @@ const EditCalendarModal = ({ calendar, onEdit, onClose }) => {
               style={{ marginBottom: "10px" }}
               error={error.title}
             />
-            {error.title && <ErrorMessage></ErrorMessage>}
+            {error.title && <ErrorMessage/>}
           </ElementWrap>
           <ElementWrap>
             <Icon src={colorPicker} />
             <ColourPicker title="Colour" value={color} onChange={setColor} />
-            {error.color && <ErrorMessage></ErrorMessage>}
+            {error.color && <ErrorMessage/>}
           </ElementWrap>
         </ModalBody>
         <ModalFooter>

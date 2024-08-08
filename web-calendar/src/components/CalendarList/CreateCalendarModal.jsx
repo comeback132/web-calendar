@@ -49,7 +49,7 @@ const CreateCalendarModal = ({ onCreate, onClose }) => {
               onChange={(e) => setTitle(e.target.value)}
               error={error}
             />
-            {error && <ErrorMessage></ErrorMessage>}
+            {error && <ErrorMessage/>}
           </ElementWrap>
           <ElementWrap style={{marginTop:'10px'}}>
             <Icon src={colorPicker} />
