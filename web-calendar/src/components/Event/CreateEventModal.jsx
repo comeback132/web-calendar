@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { format } from 'date-fns';
 import {
   ModalOverlay,
@@ -39,7 +40,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("#00AE1C");
   const [chooseDate, setChooseDate] = useState(false);
-  const [date, setDate] = useState(new Date());
+  
   const [startTime, setStartTime] = useState("12:30 pm");
   const [endTime, setEndTime] = useState("13:30 pm");
   const [allDay, setAllDay] = useState(false);
@@ -52,6 +53,7 @@ const CreateEventModal = ({ onCreate, onClose }) => {
   const calendars = useSelector((state) => state.calendar.calendars);
   const dispatch = useDispatch();
   const selectedDate = useSelector((state) => state.calendar.selectedDate);
+  const [date, setDate] = useState(new Date(selectedDate));
   const dateToFormat = new Date(selectedDate);
   const formattedDate = format(dateToFormat, 'eeee, MMMM d');
 
@@ -59,6 +61,11 @@ const CreateEventModal = ({ onCreate, onClose }) => {
     setDate(date);
     dispatch(setSelectedDate(date.toString()));
   };
+
+  // Update date state when selectedDate changes
+  useEffect(() => {
+    setDate(new Date(selectedDate));
+  }, [selectedDate]);
 
   const validateFields = () => {
     const newErrors = {};

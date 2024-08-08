@@ -122,50 +122,50 @@ const WeekView = () => {
           ))}
         </div>
         {dates.map((date, index) => (
-          <DayColumn key={index}>
-            {timeOptions.map((hour) => (
-              <HourSlot key={hour}>
-                {calculateOverlappingEvents(
-                  weekEvents.filter(
-                    (event) =>
-                      new Date(event.date).toDateString() === date.toDateString() &&
-                      !event.allDay
-                  )
-                ).map((group, groupIndex) => {
-                  return group.map((event, eventIndex) => {
-                    const { hours: startHours } = parseTime(event.startTime);
-                    const currentHour = parseTime(hour).hours;
-                    if (currentHour === startHours) {
-                      const groupSize = group.length;
-                      const width = 100 / groupSize;
-                      const left = width * eventIndex;
-
-                      return (
-                        <DayViewEvent
-                          color={event.color}
-                          key={event.id}
-                          onClick={() => handleEventClick(event)}
-                          style={{
-                            ...getEventStyle(event),
-                            width: `${width}%`,
-                            left: `${left}%`,
-                            boxSizing: 'border-box', // Ensure padding and border are included in width calculation
-                          }}
-                        >
-                          <EventTitle>{event.title}</EventTitle>
-                          <EventTime>
-                            {event.startTime} - {event.endTime}
-                          </EventTime>
-                        </DayViewEvent>
-                      );
-                    }
-                    return null;
-                  });
-                })}
-              </HourSlot>
-            ))}
-          </DayColumn>
+      <DayColumn key={index}>
+        {timeOptions.map((hour) => (
+          <HourSlot key={hour}>
+            {calculateOverlappingEvents(
+              weekEvents.filter(
+                (event) =>
+                  new Date(event.date).toDateString() === date.toDateString() &&
+                  !event.allDay
+              )
+            ).map((group, groupIndex) => {
+              return group.map((event, eventIndex) => {
+                const { hours: startHours } = parseTime(event.startTime);
+                const currentHour = parseTime(hour).hours;
+                if (currentHour === startHours) {
+                  const groupSize = group.length;
+                  const width = 100 / groupSize;
+                  const left = width * eventIndex;
+                  return (
+                    <DayViewEvent
+                      color={event.color}
+                      key={event.id}
+                      onClick={() => handleEventClick(event)}
+                      style={{
+                        ...getEventStyle(event),
+                        width: `${width}%`,
+                        left: `${left}%`,
+                        boxSizing: 'border-box', // Ensure padding and border are included in width calculation
+                      }}
+                    >
+                      <EventTitle>{event.title}</EventTitle>
+                      <EventTime>
+                        {event.startTime} - {event.endTime}
+                      </EventTime>
+                    </DayViewEvent>
+                  );
+                }
+                return null;
+              });
+            })}
+          </HourSlot>
         ))}
+      </DayColumn>
+    ))}
+
       </WeekBody>
       {showEventInfoModal && selectedEvent && ( // Render EventInfoModal conditionally
         <EventInfoModal

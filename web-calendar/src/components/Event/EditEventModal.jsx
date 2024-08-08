@@ -119,7 +119,7 @@ const EditEventModal = ({ event, onClose }) => {
               onChange={(e) => setTitle(e.target.value)}
               error={errors.title}
             />
-            {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
+            {errors.title && <ErrorMessage></ErrorMessage>}
           </ElementWrap>
           <DateTimeWrapper
             style={{
