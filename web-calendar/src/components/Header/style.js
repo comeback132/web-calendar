@@ -7,7 +7,6 @@ export const HeaderContainer = styled.header`
   padding: 10px 20px;
   background-color: #fFF;
   border-bottom: 1px solid #ddd;
-  
 `;
 export const BrandControlsWrap=styled.div`
   display: flex;
@@ -34,4 +33,5 @@ export const DateDisplay = styled.div`
   font-size: 16px;
   font-weight: bold;
   cursor:pointer;
+  position:relative;
 `;
